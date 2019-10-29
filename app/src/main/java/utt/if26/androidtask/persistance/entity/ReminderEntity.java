@@ -5,9 +5,10 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
-import java.util.Date;
+import java.util.Calendar;
 
-import utt.if26.androidtask.persistance.entity.TypeConverter.DateTimeConverter;
+
+import utt.if26.androidtask.persistance.entity.TypeConverter.CalendarConverter;
 
 @Entity(tableName = "reminder")
 public class ReminderEntity {
@@ -18,6 +19,6 @@ public class ReminderEntity {
     @ColumnInfo(name = "titre")
     public String titre;
 
-    @TypeConverters(DateTimeConverter.class)
-    public Date date;
+    @TypeConverters(CalendarConverter.class)
+    public Calendar date;
 }
