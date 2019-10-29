@@ -25,4 +25,7 @@ public interface ReminderDao {
     @Query("SELECT * FROM reminder")
     LiveData<List<ReminderEntity>> getAllReminder();
 
+    @Query("SELECT * FROM reminder WHERE date  =  (SELECT MAX(re.date) FROM reminder as re )")
+    ReminderEntity getNextReminder();
+
 }
