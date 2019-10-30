@@ -1,11 +1,8 @@
 package utt.if26.androidtask.persistance;
 
-import android.app.Application;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.provider.CalendarContract;
 
-import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 
 import java.util.ArrayList;
@@ -16,7 +13,6 @@ import utt.if26.androidtask.AsyncCallback;
 import utt.if26.androidtask.persistance.dao.ReminderDao;
 import utt.if26.androidtask.persistance.database.AppDatabase;
 import utt.if26.androidtask.persistance.entity.ReminderEntity;
-import utt.if26.androidtask.receiver.ReminderReceiver;
 
 public class Repository {
     private ReminderDao reminderDao;

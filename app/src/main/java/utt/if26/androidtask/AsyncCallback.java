@@ -7,5 +7,5 @@ import utt.if26.androidtask.persistance.entity.ReminderEntity;
 
 public interface AsyncCallback {
 
-    public void callback(List<Optional<ReminderEntity>> entity);
+    void callback(List<Optional<ReminderEntity>> entity);
 }

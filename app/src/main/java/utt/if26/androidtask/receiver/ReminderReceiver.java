@@ -37,7 +37,7 @@ public class ReminderReceiver extends BroadcastReceiver implements AsyncCallback
     public void callback(List<Optional<ReminderEntity>> reminderEntities){
         makeNotif(context,reminderEntities.get(0).get());
         //peut etre null si le reminder qui vient de sexecuter etait le dernier (a verifier)
-        if(reminderEntities.get(1)!=null){
+        if(reminderEntities.get(1).isPresent()){
             setNextAlarm(context,reminderEntities.get(1).get());
         }
     }
