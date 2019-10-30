@@ -1,27 +1,29 @@
 package utt.if26.androidtask.persistance;
 
 import android.app.Application;
+import android.content.Context;
 import android.os.AsyncTask;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import utt.if26.androidtask.persistance.dao.ReminderDao;
 import utt.if26.androidtask.persistance.database.AppDatabase;
 import utt.if26.androidtask.persistance.entity.ReminderEntity;
+import utt.if26.androidtask.receiver.ReminderReceiver;
 
 public class Repository {
     private ReminderDao reminderDao;
     private LiveData<List<ReminderEntity>> allReminder;
-    private LiveData<ReminderEntity> nextReminder;
 
-    public Repository(Application application) {
-        AppDatabase appDatabase = AppDatabase.getINSTANCE(application);
+
+    public Repository(Context context) {
+        AppDatabase appDatabase = AppDatabase.getINSTANCE(context);
         reminderDao = appDatabase.getReminderDao();
         allReminder =reminderDao.getAllReminder();
-        nextReminder = reminderDao.getNextReminder();
     }
 
     public void insert(ReminderEntity entity){
@@ -36,10 +38,35 @@ public class Repository {
         new SetFiredAsyncTask(reminderDao).execute(reminderId);
     }
 
-    @Nullable
-    public ReminderEntity getNextReminder(){
-        return nextReminder.getValue();
+    public void archiveReminderAndGetNext(ReminderReceiver receiver){
+        new ArchiveAndGetNextAsyncTask(reminderDao,receiver).execute();
     }
+
+    private static class ArchiveAndGetNextAsyncTask extends AsyncTask<Void,Void,List<ReminderEntity>>{
+        private ReminderDao dao;
+        private ReminderReceiver receiver;
+
+        private ArchiveAndGetNextAsyncTask(ReminderDao dao,ReminderReceiver receiver) {
+            this.dao = dao;
+            this.receiver = receiver;
+        }
+
+        @Override
+        protected List<ReminderEntity> doInBackground(Void ... voids){
+            ArrayList<ReminderEntity> reminderList =new ArrayList<>();
+            ReminderEntity firedReminder= dao.getNextReminder();
+            reminderList.set(0,firedReminder);
+            dao.setFired(firedReminder.getReminderId());
+            reminderList.set(1,dao.getNextReminder());
+            return reminderList;
+        }
+
+        @Override
+        protected void onPostExecute(List<ReminderEntity> reminderEntities){
+            receiver.callBack(reminderEntities);
+        }
+    }
+
 
     private static class InsertReminderAsyncTask extends AsyncTask<ReminderEntity,Void,Void>{
         private ReminderDao dao;
@@ -82,6 +109,24 @@ public class Repository {
         protected Void doInBackground(Long...longs){
             dao.setFired(longs[0]);
             return null;
+        }
+    }
+
+    private static class GetNextReminderAsyncTask extends AsyncTask<Void,Void,ReminderEntity>{
+        private ReminderDao dao;
+
+        private GetNextReminderAsyncTask(ReminderDao dao) {
+            this.dao = dao;
+        }
+
+        @Override
+        protected ReminderEntity doInBackground(Void...longs){
+            return dao.getNextReminder();
+        }
+
+        @Override
+        protected void onPostExecute(ReminderEntity reminderEntity){
+
         }
     }
 }

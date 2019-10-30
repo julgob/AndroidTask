@@ -14,13 +14,45 @@ import utt.if26.androidtask.persistance.entity.TypeConverter.CalendarConverter;
 public class ReminderEntity {
 
     @PrimaryKey (autoGenerate = true)
-    public long reminderId;
+    private long reminderId;
 
     @ColumnInfo(name = "titre")
-    public String titre;
+    private String titre;
 
     @TypeConverters(CalendarConverter.class)
-    public Calendar date;
+    private Calendar calendar;
 
-    public boolean fired;
+    private boolean fired;
+
+    public long getReminderId() {
+        return reminderId;
+    }
+
+    public void setReminderId(long reminderId) {
+        this.reminderId = reminderId;
+    }
+
+    public String getTitre() {
+        return titre;
+    }
+
+    public void setTitre(String titre) {
+        this.titre = titre;
+    }
+
+    public Calendar getCalendar() {
+        return calendar;
+    }
+
+    public void setDate(Calendar calendar) {
+        this.calendar = calendar;
+    }
+
+    public boolean isFired() {
+        return fired;
+    }
+
+    public void setFired(boolean fired) {
+        this.fired = fired;
+    }
 }
