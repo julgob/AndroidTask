@@ -24,6 +24,20 @@ public class ReminderEntity {
 
     private boolean fired;
 
+    private boolean enabled;
+
+    public void setCalendar(Calendar calendar) {
+        this.calendar = calendar;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
     public long getReminderId() {
         return reminderId;
     }

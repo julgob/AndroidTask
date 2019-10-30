@@ -10,13 +10,15 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import java.util.List;
+import java.util.Optional;
 
+import utt.if26.androidtask.AsyncCallback;
 import utt.if26.androidtask.R;
 import utt.if26.androidtask.ReminderUtility;
 import utt.if26.androidtask.persistance.Repository;
 import utt.if26.androidtask.persistance.entity.ReminderEntity;
 
-public class ReminderReceiver extends BroadcastReceiver {
+public class ReminderReceiver extends BroadcastReceiver implements AsyncCallback {
     Context context;
 
     @Override
@@ -32,9 +34,12 @@ public class ReminderReceiver extends BroadcastReceiver {
     }
 
     //callbak depuis repository , reminderentites contient en 0 le reminder qui vient detre executé et en 1 le next
-    public void callBack(List<ReminderEntity> reminderEntities){
-        makeNotif(context,reminderEntities.get(0));
-        setNextAlarm(context,reminderEntities.get(1));
+    public void callback(List<Optional<ReminderEntity>> reminderEntities){
+        makeNotif(context,reminderEntities.get(0).get());
+        //peut etre null si le reminder qui vient de sexecuter etait le dernier (a verifier)
+        if(reminderEntities.get(1)!=null){
+            setNextAlarm(context,reminderEntities.get(1).get());
+        }
     }
 
     //IL FAUT CREER ET GERE LESCHANNEL QQ PART ET VIRER LES MAGIC NUMBER
