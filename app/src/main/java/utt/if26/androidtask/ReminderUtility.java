@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import java.util.Calendar;
-import java.util.Date;
+
 
 import utt.if26.androidtask.receiver.ReminderReceiver;
 

@@ -1,12 +1,8 @@
 package utt.if26.androidtask.persistance.entity.TypeConverter;
 
-import androidx.room.Query;
 import androidx.room.TypeConverter;
 
 import java.util.Calendar;
-import java.util.Date;
-
-import utt.if26.androidtask.persistance.entity.ReminderEntity;
 
 public class CalendarConverter {
 

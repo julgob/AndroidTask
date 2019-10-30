@@ -7,6 +7,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import utt.if26.androidtask.persistance.dao.ReminderDao;
 import utt.if26.androidtask.persistance.entity.ReminderEntity;
 
 
@@ -15,7 +16,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase INSTANCE;
 
-    public abstract ReminderEntity getReminderDao();
+    public abstract ReminderDao getReminderDao();
 
     public static AppDatabase getINSTANCE(Context context){
         if(INSTANCE== null){

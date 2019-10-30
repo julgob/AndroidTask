@@ -21,4 +21,6 @@ public class ReminderEntity {
 
     @TypeConverters(CalendarConverter.class)
     public Calendar date;
+
+    public boolean fired;
 }
