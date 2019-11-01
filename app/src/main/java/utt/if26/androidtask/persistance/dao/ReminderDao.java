@@ -20,18 +20,18 @@ public interface ReminderDao {
     void delete(ReminderEntity reminder);
 
     @Query("DELETE FROM reminder WHERE reminderId= :reminderId ")
-    void deleteById(Long reminderId);
+    void deleteById(Integer reminderId);
 
     @Query("SELECT * FROM reminder")
     LiveData<List<ReminderEntity>> getAllReminder();
 
-    @Query("SELECT * FROM reminder WHERE fired = 0 and enabled = 1 and calendar  =  (SELECT MAX(re.calendar) FROM reminder as re ) LIMIT 1")
+    @Query("SELECT * FROM reminder WHERE fired = 0 and enabled = 1 and dateTime  =  (SELECT MAX(re.dateTime) FROM reminder as re ) LIMIT 1")
     ReminderEntity getNextReminder();
 
     @Query("UPDATE reminder SET fired = 1 where reminderId = :id")
-    void setFired(long id);
+    void setFired(int id);
 
     @Query("UPDATE reminder SET enabled = :enabled where reminderId = :id")
-    void setEnabled(long id,int enabled);
+    void setEnabled(int id,int enabled);
 
 }

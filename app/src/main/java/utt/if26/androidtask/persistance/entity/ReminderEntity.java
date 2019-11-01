@@ -5,29 +5,41 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
-import java.util.Calendar;
+import java.time.OffsetDateTime;
 
-
-import utt.if26.androidtask.persistance.entity.TypeConverter.CalendarConverter;
+import utt.if26.androidtask.persistance.entity.TypeConverter.DateTimeConverter;
 
 @Entity(tableName = "reminder")
 public class ReminderEntity {
 
+    public ReminderEntity(String titre, OffsetDateTime dateTime) {
+        this.titre = titre;
+        this.dateTime = dateTime;
+        this.fired = false;
+        this.enabled = true;
+    }
+
     @PrimaryKey (autoGenerate = true)
-    private long reminderId;
+    private int reminderId;
 
     @ColumnInfo(name = "titre")
     private String titre;
 
-    @TypeConverters(CalendarConverter.class)
-    private Calendar calendar;
+    @TypeConverters(DateTimeConverter.class)
+    private OffsetDateTime dateTime;
+
+
 
     private boolean fired;
 
     private boolean enabled;
 
-    public void setCalendar(Calendar calendar) {
-        this.calendar = calendar;
+    public OffsetDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(OffsetDateTime dateTime) {
+        this.dateTime = dateTime;
     }
 
     public boolean isEnabled() {
@@ -38,11 +50,11 @@ public class ReminderEntity {
         this.enabled = enabled;
     }
 
-    public long getReminderId() {
+    public int getReminderId() {
         return reminderId;
     }
 
-    public void setReminderId(long reminderId) {
+    public void setReminderId(int reminderId) {
         this.reminderId = reminderId;
     }
 
@@ -52,14 +64,6 @@ public class ReminderEntity {
 
     public void setTitre(String titre) {
         this.titre = titre;
-    }
-
-    public Calendar getCalendar() {
-        return calendar;
-    }
-
-    public void setDate(Calendar calendar) {
-        this.calendar = calendar;
     }
 
     public boolean isFired() {

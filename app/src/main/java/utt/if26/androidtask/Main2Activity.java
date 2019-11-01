@@ -1,6 +1,5 @@
 package utt.if26.androidtask;
 
-
 import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -9,54 +8,46 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.TimePicker;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.ViewModelProviders;
 
-import java.util.Calendar;
+import java.time.OffsetDateTime;
+import java.util.List;
+import java.util.Optional;
 
-import utt.if26.androidtask.persistance.Repository;
+import utt.if26.androidtask.persistance.entity.ReminderEntity;
 import utt.if26.androidtask.receiver.ReminderReceiver;
 
-public class MainActivity extends AppCompatActivity {
-
+//pour le time faut faire gaffe au fait que le date picker renvoit entre 0 et 11 et pas 1 et 12 alors que je crois que les datetime prennent entre 1 et 12
+public class Main2Activity extends AppCompatActivity implements AsyncCallback {
     private int hour1;
     private int minute1;
     private int hour2;
     private int minute2;
     private int hour3;
     private int minute3;
-
-    private AndroidViewModel viewModel;
-    private Repository repository;
+    MainActivityViewModel viewModel;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
-        setContentView(R.layout.activity_main);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main2);
         viewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
         createNotificationChannel();
     }
 
-
-    public void schedule1(View v){
-        schedule(1);
-    }public void schedule2(View v){
-        schedule(2);
-    }public void schedule3(View v){
-        schedule(3);
+    public void add1(View v){
+        add(1);
+    }public void add2(View v){
+        add(2);
+    }public void add3(View v){
+        add(3);
     }
 
-    private void schedule(int i){
-        Intent myIntent = new Intent(this , ReminderReceiver.class ) ;
-        AlarmManager alarmManager = (AlarmManager) getSystemService( ALARM_SERVICE ) ;
-        PendingIntent pendingIntent = PendingIntent.getBroadcast ( this, i , myIntent , 0 ) ;
-        Calendar calendar = Calendar.getInstance() ;
+    private void add(int i){
         int mHour ;
         int mMinute;
         switch (i){
@@ -65,8 +56,10 @@ public class MainActivity extends AppCompatActivity {
             case 3 : mHour = hour3;mMinute= minute3;break;
             default: mHour = 1; mMinute = 1;
         }
-        calendar.set(2019,10,30,mHour,mMinute);
-        alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP , calendar.getTimeInMillis() ,  pendingIntent);
+
+        OffsetDateTime offsetDateTime =  OffsetDateTime.of(2019,11,1,mHour,mMinute,0,0, OffsetDateTime.now().getOffset());
+
+        viewModel.addReminder(offsetDateTime,this);
     }
 
     public void time1(View v){
@@ -82,11 +75,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void showTime(final int i){
         // Get Current Time
-        final Calendar c = Calendar.getInstance();
-        int mHour = c.get(Calendar.HOUR_OF_DAY);
-        int mMinute = c.get(Calendar.MINUTE);
-
+        OffsetDateTime offsetDateTime =  OffsetDateTime.now();
+        int mHour = offsetDateTime.getHour();
+        int mMinute = offsetDateTime.getMinute();
         // Launch Time Picker Dialog
+
         TimePickerDialog timePickerDialog = new TimePickerDialog(this,
                 new TimePickerDialog.OnTimeSetListener() {
 
@@ -101,8 +94,23 @@ public class MainActivity extends AppCompatActivity {
 
                         }
                     }
-                }, mHour, mMinute, false);
+                }, mHour, mMinute, true);
         timePickerDialog.show();
+    }
+
+    //callback après ajout, toggle , deletion
+    //si un reminderentity est dans la liste en 0 alors faut delete l'alarm current et mettre nouveau pour ce reminder
+    @Override
+    public void callback(List<Optional<ReminderEntity>> entity) {
+        //doit mettre lalarm si ya un truc
+        if(entity.get(0).isPresent()){
+            ReminderEntity reminder = entity.get(0).get();
+            Intent myIntent = new Intent(this , ReminderReceiver.class ) ;
+            AlarmManager alarmManager = (AlarmManager) getSystemService( ALARM_SERVICE ) ;
+            PendingIntent pendingIntent = PendingIntent.getBroadcast ( this, reminder.getReminderId() , myIntent , 0 ) ;
+            //debugging
+            alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP , reminder.getDateTime().toInstant().toEpochMilli(), pendingIntent);
+        }
     }
 
 
@@ -121,5 +129,4 @@ public class MainActivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(channel);
         }
     }
-
 }

@@ -35,7 +35,8 @@ public class ReminderReceiver extends BroadcastReceiver implements AsyncCallback
 
     //callbak depuis repository , reminderentites contient en 0 le reminder qui vient detre executé et en 1 le next
     public void callback(List<Optional<ReminderEntity>> reminderEntities){
-        makeNotif(context,reminderEntities.get(0).get());
+        if(reminderEntities.get(0).isPresent())
+            makeNotif(context,reminderEntities.get(0).get());
         //peut etre null si le reminder qui vient de sexecuter etait le dernier (a verifier)
         if(reminderEntities.get(1).isPresent()){
             setNextAlarm(context,reminderEntities.get(1).get());
@@ -48,11 +49,11 @@ public class ReminderReceiver extends BroadcastReceiver implements AsyncCallback
         Notification notification = buildNotification(context,firedReminder);
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
 // notificationId is a unique int for each notification that you must define
-        notificationManager.notify(2, notification);
+        notificationManager.notify(4, notification);
     }
 
     private Notification buildNotification(Context context,ReminderEntity reminderEntity){
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "21")
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "241")
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle(reminderEntity.getTitre())
                 .setContentText(reminderEntity.getTitre())
@@ -63,6 +64,6 @@ public class ReminderReceiver extends BroadcastReceiver implements AsyncCallback
 
     private void setNextAlarm(Context context,ReminderEntity nextReminder){
         ReminderUtility reminderUtility= new ReminderUtility();
-        reminderUtility.createAlarmForReminder(context,nextReminder.getCalendar());
+        reminderUtility.createAlarmForReminder(context,nextReminder.getDateTime());
     }
 }
