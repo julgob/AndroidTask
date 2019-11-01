@@ -1,25 +1,24 @@
 package utt.if26.androidtask;
 
-import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.TimePickerDialog;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import java.time.OffsetDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import utt.if26.androidtask.persistance.entity.ReminderEntity;
-import utt.if26.androidtask.receiver.ReminderReceiver;
 
 //pour le time faut faire gaffe au fait que le date picker renvoit entre 0 et 11 et pas 1 et 12 alors que je crois que les datetime prennent entre 1 et 12
 public class Main2Activity extends AppCompatActivity implements AsyncCallback {
@@ -31,13 +30,73 @@ public class Main2Activity extends AppCompatActivity implements AsyncCallback {
     private int minute3;
     MainActivityViewModel viewModel;
 
+    TextView textView1;
+    TextView textView2;
+    TextView textView3;
+
+    List<TextView> textViewList;
+
+    List<ReminderEntity> reminderEntityList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         viewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
         createNotificationChannel();
+
+        textView1 =findViewById(R.id.textView1);
+        textView2 =findViewById(R.id.textView2);
+        textView3 = findViewById(R.id.textView3);
+
+        textViewList = Arrays.asList(textView1,textView2,textView3);
+        setTextViewDebug();
+        //setMinMaxDateTimeDebug();
+
     }
+
+    private void setTextViewDebug(){
+        viewModel.getAll().observe(this, new Observer<List<ReminderEntity>>() {
+            @Override
+            public void onChanged(List<ReminderEntity> reminderEntities) {
+                reminderEntityList = reminderEntities;
+                for (TextView tx:textViewList) {
+                    tx.setText("textview");
+                }
+                for (int i = 0;i < reminderEntities.size();i++) {
+                    ReminderEntity re = reminderEntities.get(i);
+                    textViewList.get(i).setText("enabled: "+re.isEnabled()+" time: "+re.getDateTime()+" fired: "+re.isFired());
+                }
+            }
+        });
+    }
+
+    private void setMinMaxDateTimeDebug(){
+        viewModel.getMax().observe(this, x ->{
+            if(x !=null)
+                textView1.setText(x.getDateTime().toString());
+        });
+
+        viewModel.getMin().observe(this, x ->{
+            if(x != null )
+                textView2.setText(x.getDateTime().toString());
+        });
+    }
+
+    public void delete1(View v){
+        deleteReminder(0);
+    }
+    public void delete2(View v){deleteReminder(1);}
+    public void delete3(View v){
+        deleteReminder(2);
+    }
+
+
+    public void deleteReminder(int i){
+        this.viewModel.deleteById(this.reminderEntityList.get(i).getReminderId(),this);
+    }
+
+
 
     public void add1(View v){
         add(1);
@@ -105,11 +164,7 @@ public class Main2Activity extends AppCompatActivity implements AsyncCallback {
         //doit mettre lalarm si ya un truc
         if(entity.get(0).isPresent()){
             ReminderEntity reminder = entity.get(0).get();
-            Intent myIntent = new Intent(this , ReminderReceiver.class ) ;
-            AlarmManager alarmManager = (AlarmManager) getSystemService( ALARM_SERVICE ) ;
-            PendingIntent pendingIntent = PendingIntent.getBroadcast ( this, reminder.getReminderId() , myIntent , 0 ) ;
-            //debugging
-            alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP , reminder.getDateTime().toInstant().toEpochMilli(), pendingIntent);
+            AlarmManagerUtility.createAlarmForReminder(this,reminder.getDateTime());
         }
     }
 
@@ -128,5 +183,11 @@ public class Main2Activity extends AppCompatActivity implements AsyncCallback {
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
+    }
+
+    @Override
+    public void alarmDesactivationCallback(List<Optional<ReminderEntity>> entityList) {
+        AlarmManagerUtility.cancelAlarm(this);
+        callback(entityList);
     }
 }

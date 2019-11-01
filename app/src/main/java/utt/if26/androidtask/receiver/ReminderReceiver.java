@@ -14,7 +14,7 @@ import java.util.Optional;
 
 import utt.if26.androidtask.AsyncCallback;
 import utt.if26.androidtask.R;
-import utt.if26.androidtask.ReminderUtility;
+import utt.if26.androidtask.AlarmManagerUtility;
 import utt.if26.androidtask.persistance.Repository;
 import utt.if26.androidtask.persistance.entity.ReminderEntity;
 
@@ -63,7 +63,13 @@ public class ReminderReceiver extends BroadcastReceiver implements AsyncCallback
     }
 
     private void setNextAlarm(Context context,ReminderEntity nextReminder){
-        ReminderUtility reminderUtility= new ReminderUtility();
-        reminderUtility.createAlarmForReminder(context,nextReminder.getDateTime());
+        AlarmManagerUtility alarmManagerUtility = new AlarmManagerUtility();
+        alarmManagerUtility.createAlarmForReminder(context,nextReminder.getDateTime());
+    }
+
+
+    @Override
+    public void alarmDesactivationCallback(List<Optional<ReminderEntity>> entityList) {
+
     }
 }
