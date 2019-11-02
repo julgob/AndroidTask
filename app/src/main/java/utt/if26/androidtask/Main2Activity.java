@@ -6,6 +6,8 @@ import android.app.TimePickerDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -16,18 +18,22 @@ import androidx.lifecycle.ViewModelProviders;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import utt.if26.androidtask.persistance.entity.ReminderEntity;
 
 //pour le time faut faire gaffe au fait que le date picker renvoit entre 0 et 11 et pas 1 et 12 alors que je crois que les datetime prennent entre 1 et 12
-public class Main2Activity extends AppCompatActivity implements AsyncCallback {
+public class Main2Activity extends AppCompatActivity {
     private int hour1;
     private int minute1;
     private int hour2;
     private int minute2;
     private int hour3;
     private int minute3;
+
+    private Switch switch1;
+    private Switch switch2;
+    private Switch switch3;
+
     MainActivityViewModel viewModel;
 
     TextView textView1;
@@ -48,6 +54,34 @@ public class Main2Activity extends AppCompatActivity implements AsyncCallback {
         textView1 =findViewById(R.id.textView1);
         textView2 =findViewById(R.id.textView2);
         textView3 = findViewById(R.id.textView3);
+
+        switch1 = findViewById(R.id.switch1);
+        switch3 = findViewById(R.id.switch3);
+        switch2 = findViewById(R.id.switch2);
+
+        switch1.setChecked(true);
+        switch3.setChecked(true);
+        switch2.setChecked(true);
+
+        switch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                viewModel.toggle(reminderEntityList.get(0).getReminderId(),isChecked);
+            }
+        });
+        switch2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                viewModel.toggle(reminderEntityList.get(1).getReminderId(),isChecked);
+            }
+        });
+        switch3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                viewModel.toggle(reminderEntityList.get(2).getReminderId(),isChecked);
+            }
+        });
+
 
         textViewList = Arrays.asList(textView1,textView2,textView3);
         setTextViewDebug();
@@ -116,7 +150,7 @@ public class Main2Activity extends AppCompatActivity implements AsyncCallback {
             default: mHour = 1; mMinute = 1;
         }
 
-        OffsetDateTime offsetDateTime =  OffsetDateTime.of(2019,11,1,mHour,mMinute,0,0, OffsetDateTime.now().getOffset());
+        OffsetDateTime offsetDateTime =  OffsetDateTime.of(2019,11,2,mHour,mMinute,0,0, OffsetDateTime.now().getOffset());
 
         viewModel.addReminder(offsetDateTime,this);
     }
@@ -157,16 +191,7 @@ public class Main2Activity extends AppCompatActivity implements AsyncCallback {
         timePickerDialog.show();
     }
 
-    //callback après ajout, toggle , deletion
-    //si un reminderentity est dans la liste en 0 alors faut delete l'alarm current et mettre nouveau pour ce reminder
-    @Override
-    public void callback(List<Optional<ReminderEntity>> entity) {
-        //doit mettre lalarm si ya un truc
-        if(entity.get(0).isPresent()){
-            ReminderEntity reminder = entity.get(0).get();
-            AlarmManagerUtility.createAlarmForReminder(this,reminder.getDateTime());
-        }
-    }
+
 
 
     private void createNotificationChannel() {
@@ -185,9 +210,5 @@ public class Main2Activity extends AppCompatActivity implements AsyncCallback {
         }
     }
 
-    @Override
-    public void alarmDesactivationCallback(List<Optional<ReminderEntity>> entityList) {
-        AlarmManagerUtility.cancelAlarm(this);
-        callback(entityList);
-    }
+
 }

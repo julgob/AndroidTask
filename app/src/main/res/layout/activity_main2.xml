@@ -20,7 +20,7 @@
         android:id="@+id/schedule2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="108dp"
+        android:layout_marginStart="88dp"
         android:layout_marginTop="160dp"
         android:onClick="add2"
         android:text="do2"
@@ -52,7 +52,7 @@
         android:id="@+id/schedule1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="108dp"
+        android:layout_marginStart="76dp"
         android:layout_marginTop="72dp"
         android:onClick="add1"
         android:text="do1"
@@ -63,7 +63,7 @@
         android:id="@+id/schedule3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="108dp"
+        android:layout_marginStart="76dp"
         android:layout_marginTop="244dp"
         android:onClick="add3"
         android:text="do3"
@@ -91,12 +91,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:onClick="@{() -> main2activity::deleteReminder(1)}"
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="460dp"
+        android:onClick="@{() -> main2activity::deleteReminder(1)}"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -105,32 +105,62 @@
         android:id="@+id/delete1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="226dp"
-        android:layout_marginTop="79dp"
-        android:text="delete1"
+        android:layout_marginStart="164dp"
+        android:layout_marginTop="80dp"
         android:onClick="delete1"
+        android:text="delete1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/delete2"
-        android:onClick="delete2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="228dp"
-        android:layout_marginTop="163dp"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="160dp"
+        android:onClick="delete2"
         android:text="delete2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/delete3"
-        android:onClick="delete3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="235dp"
-        android:layout_marginTop="246dp"
+        android:layout_marginStart="164dp"
+        android:layout_marginTop="244dp"
+        android:onClick="delete3"
         android:text="delete3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="302dp"
+        android:layout_marginTop="89dp"
+        android:text="Switch"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Switch
+        android:id="@+id/switch2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="297dp"
+        android:layout_marginTop="169dp"
+        android:text="Switch"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Switch
+        android:id="@+id/switch3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="286dp"
+        android:layout_marginTop="253dp"
+        android:text="Switch"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
