@@ -20,8 +20,6 @@ public class Repository {
     public LiveData<ReminderEntity> maxdate;
     public LiveData<ReminderEntity> mindate;
    // public LiveData<R>
-
-
     //ON POURRAIT POTENTIELLEMENT VIRER LES CALLBACK POUR FAIR AVEC LIVEDATA
     //ON SABONNE A CHAQUE TRUC ADAPT2 ET DES QUE YA UN CHNAGEMENT ON REMPLACE LALARMANAGER AVEC LE FLAG QUI REMPLACE SI EXISTE D2JA
     //met ca fait que quand un est declanché ya le receiver et lactivité qui recoivent mais est ce que cest grave ?
@@ -43,12 +41,8 @@ public class Repository {
         return allReminder;
     }
 
-    public void setFired(int reminderId){
-        new SetFiredAsyncTask(reminderDao).execute(reminderId);
-    }
-
     public void archiveReminderAndGetNext(AsyncCallback receiver){
-        new ArchiveAndGetNextAsyncTask(reminderDao,receiver).execute();
+        new SetFiredAndGetNextAsyncTask(reminderDao,receiver).execute();
     }
 
     public void addNewReminder(ReminderEntity reminder,AsyncCallback callback){
@@ -88,9 +82,7 @@ public class Repository {
 
         @Override
         protected void onPostExecute(Optional<ReminderEntity> reminderEntity) {
-            List<Optional<ReminderEntity>> list = new ArrayList<>();
-            list.add(reminderEntity);
-            this.callback.alarmDesactivationCallback(list);
+            this.callback.callback(reminderEntity,Optional.empty());
         }
     }
 
@@ -108,23 +100,12 @@ public class Repository {
             ReminderEntity current = this.dao.getNextReminder();
             this.dao.setEnabled(ints[0],1);
             ReminderEntity next = this.dao.getNextReminder();
-            //if it is the same it means we dont have to change the alarm
-            //we have to check for null in the callback
-            if(current!=null && next != null){
-                if(current.getReminderId() == next.getReminderId()){
-                    return Optional.empty();
-                }
-            }
-
-            //else we return the next enabled one to schedule at alarmmanager
             return Optional.ofNullable(next);
         }
 
         @Override
         protected void onPostExecute(Optional<ReminderEntity> reminderEntity) {
-            List<Optional<ReminderEntity>> list = new ArrayList<>();
-            list.add(reminderEntity);
-            this.callback.callback(list);
+            this.callback.callback(reminderEntity,Optional.empty());
         }
     }
 
@@ -138,19 +119,14 @@ public class Repository {
 
         @Override
         protected Optional<ReminderEntity> doInBackground(Integer... ints) {
-            ReminderEntity current = this.dao.getNextReminder();
             this.dao.setEnabled(ints[0],0);
             ReminderEntity next = this.dao.getNextReminder();
-            //if it is the same it means we didnt toggle the next reminder so we dont have to do anything with alarmamanger
-            //we have to check for null in the callback
             return Optional.ofNullable(next);
         }
 
         @Override
         protected void onPostExecute(Optional<ReminderEntity> reminderEntity) {
-            List<Optional<ReminderEntity>> list = new ArrayList<>();
-            list.add(reminderEntity);
-            this.callback.alarmDesactivationCallback(list);
+            this.callback.callback(reminderEntity,Optional.empty());
         }
     }
 
@@ -164,66 +140,41 @@ public class Repository {
 
         @Override
         protected Optional<ReminderEntity> doInBackground(ReminderEntity... reminderEntities) {
-            ReminderEntity current = dao.getNextReminder();
-            //descemoment la ca passe en pm am
             this.dao.insert(reminderEntities[0]);
             ReminderEntity next = dao.getNextReminder();
-            if(current!=null && next != null){
-                if(current.getReminderId() == next.getReminderId()){
-                    return Optional.empty();
-                }
-            }
             return Optional.ofNullable(next);
         }
 
         @Override
         protected void onPostExecute(Optional<ReminderEntity> reminderEntity) {
-            List<Optional<ReminderEntity>> list = new ArrayList<>();
-            list.add(reminderEntity);
-            this.callback.callback(list);        }
+            this.callback.callback(reminderEntity,Optional.empty());
+      }
     }
 
-    private static class ArchiveAndGetNextAsyncTask extends AsyncTask<Void,Void,List<Optional<ReminderEntity>>>{
+    private static class SetFiredAndGetNextAsyncTask extends AsyncTask<Void,Void,List<Optional<ReminderEntity>>>{
         private ReminderDao dao;
         private AsyncCallback receiver;
 
-        private ArchiveAndGetNextAsyncTask(ReminderDao dao, AsyncCallback receiver) {
+        private SetFiredAndGetNextAsyncTask(ReminderDao dao, AsyncCallback receiver) {
             this.dao = dao;
             this.receiver = receiver;
         }
 
         @Override
         protected List<Optional<ReminderEntity>> doInBackground(Void ... voids){
-            ArrayList<Optional<ReminderEntity>> reminderList =new ArrayList<>();
-            reminderList.add(null);
-            reminderList.add(null);
+            ArrayList<Optional<ReminderEntity>> reminderList = new ArrayList<>(2);
             ReminderEntity firedReminder= dao.getNextReminder();
-            reminderList.set(0,Optional.ofNullable(firedReminder));
             if (firedReminder != null) {
                 dao.setFired(firedReminder.getReminderId());
             }
-            reminderList.set(1,Optional.ofNullable(dao.getNextReminder()));
+            reminderList.add(0,Optional.ofNullable(dao.getNextReminder()));
+            reminderList.add(1,Optional.ofNullable(firedReminder));
             return reminderList;
         }
 
         @Override
         protected void onPostExecute(List<Optional<ReminderEntity>> reminderEntities){
-            receiver.callback(reminderEntities);
-        }
-    }
-
-
-    private static class SetFiredAsyncTask extends AsyncTask<Integer,Void,Void>{
-        private ReminderDao dao;
-
-        private SetFiredAsyncTask(ReminderDao dao) {
-            this.dao = dao;
-        }
-
-        @Override
-        protected Void doInBackground(Integer...ints){
-            dao.setFired(ints[0]);
-            return null;
+            receiver.callback(reminderEntities.get(0),reminderEntities.get(1));
         }
     }
 

@@ -9,12 +9,11 @@ import android.widget.Toast;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import java.util.List;
 import java.util.Optional;
 
+import utt.if26.androidtask.AlarmManagerUtility;
 import utt.if26.androidtask.AsyncCallback;
 import utt.if26.androidtask.R;
-import utt.if26.androidtask.AlarmManagerUtility;
 import utt.if26.androidtask.persistance.Repository;
 import utt.if26.androidtask.persistance.entity.ReminderEntity;
 
@@ -34,12 +33,12 @@ public class ReminderReceiver extends BroadcastReceiver implements AsyncCallback
     }
 
     //callbak depuis repository , reminderentites contient en 0 le reminder qui vient detre executé et en 1 le next
-    public void callback(List<Optional<ReminderEntity>> reminderEntities){
-        if(reminderEntities.get(0).isPresent())
-            makeNotif(context,reminderEntities.get(0).get());
+    public void callback(Optional<ReminderEntity> reminderToSchedule, Optional<ReminderEntity> firedReminder){
+        if(firedReminder.isPresent())
+            makeNotif(context,firedReminder.get());
         //peut etre null si le reminder qui vient de sexecuter etait le dernier (a verifier)
-        if(reminderEntities.get(1).isPresent()){
-            setNextAlarm(context,reminderEntities.get(1).get());
+        if(reminderToSchedule.isPresent()){
+            setNextAlarm(context,reminderToSchedule.get());
         }
     }
 
@@ -58,18 +57,11 @@ public class ReminderReceiver extends BroadcastReceiver implements AsyncCallback
                 .setContentTitle(reminderEntity.getTitre())
                 .setContentText(reminderEntity.getTitre())
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-
         return builder.build();
     }
 
     private void setNextAlarm(Context context,ReminderEntity nextReminder){
         AlarmManagerUtility alarmManagerUtility = new AlarmManagerUtility();
         alarmManagerUtility.createAlarmForReminder(context,nextReminder.getDateTime());
-    }
-
-
-    @Override
-    public void alarmDesactivationCallback(List<Optional<ReminderEntity>> entityList) {
-
     }
 }

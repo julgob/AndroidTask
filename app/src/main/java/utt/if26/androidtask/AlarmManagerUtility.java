@@ -20,9 +20,8 @@ public class AlarmManagerUtility {
     }
 
     public static PendingIntent createPendingIntent(Context context){
-        Intent myIntent = new Intent(context , ReminderReceiver.class ) ;
-        PendingIntent pendingIntent = PendingIntent.getBroadcast ( context, 0 , myIntent ,0) ;
-
+        Intent myIntent = new Intent(context, ReminderReceiver.class ) ;
+        PendingIntent pendingIntent = PendingIntent.getBroadcast (context, 0 , myIntent ,PendingIntent.FLAG_CANCEL_CURRENT) ;
         return pendingIntent;
     }
 

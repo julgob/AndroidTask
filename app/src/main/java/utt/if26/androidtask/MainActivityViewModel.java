@@ -41,19 +41,14 @@ public class MainActivityViewModel extends AndroidViewModel implements AsyncCall
         this.repository.deleteReminder(id,this);
     }
 
-    @Override
-    public void alarmDesactivationCallback(List<Optional<ReminderEntity>> entityList) {
-        AlarmManagerUtility.cancelAlarm(getApplication().getApplicationContext());
-        callback(entityList);
-    }
 
     //callback après ajout, toggle , deletion
     //si un reminderentity est dans la liste en 0 alors faut delete l'alarm current et mettre nouveau pour ce reminder
     @Override
-    public void callback(List<Optional<ReminderEntity>> entity) {
-        //doit mettre lalarm si ya un truc
-        if(entity.get(0).isPresent()){
-            ReminderEntity reminder = entity.get(0).get();
+    public void callback(Optional<ReminderEntity> reminderToSchedule,Optional<ReminderEntity> firedReminder) {
+        AlarmManagerUtility.cancelAlarm(getApplication().getApplicationContext());
+        if(reminderToSchedule.isPresent()){
+            ReminderEntity reminder = reminderToSchedule.get();
             AlarmManagerUtility.createAlarmForReminder(getApplication().getApplicationContext(),reminder.getDateTime());
         }
     }

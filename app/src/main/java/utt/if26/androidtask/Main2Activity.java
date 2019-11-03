@@ -150,7 +150,7 @@ public class Main2Activity extends AppCompatActivity {
             default: mHour = 1; mMinute = 1;
         }
 
-        OffsetDateTime offsetDateTime =  OffsetDateTime.of(2019,11,2,mHour,mMinute,0,0, OffsetDateTime.now().getOffset());
+        OffsetDateTime offsetDateTime =  OffsetDateTime.of(2019,11,3,mHour,mMinute,0,0, OffsetDateTime.now().getOffset());
 
         viewModel.addReminder(offsetDateTime,this);
     }
