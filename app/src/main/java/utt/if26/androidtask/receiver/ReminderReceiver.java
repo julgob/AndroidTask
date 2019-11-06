@@ -48,7 +48,7 @@ public class ReminderReceiver extends BroadcastReceiver implements AsyncCallback
         Notification notification = buildNotification(context,firedReminder);
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
 // notificationId is a unique int for each notification that you must define
-        notificationManager.notify(4, notification);
+        notificationManager.notify(firedReminder.getReminderId(), notification);
     }
 
     private Notification buildNotification(Context context,ReminderEntity reminderEntity){
