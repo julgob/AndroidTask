@@ -20,11 +20,11 @@ public interface ReminderDao {
     void delete(ReminderEntity reminder);
 
     //debug to delete
-    @Query("SELECT * FROM reminder WHERE datetime(dateTime) = (SELECT MAX(datetime(re.dateTime)) FROM reminder as re ) LIMIT 1")
+    @Query("SELECT * FROM reminder WHERE datetime(triggerDateTime) = (SELECT MAX(datetime(re.triggerDateTime)) FROM reminder as re ) LIMIT 1")
     LiveData<ReminderEntity> getMaxDate();
 
     //debug to delete
-    @Query("SELECT * FROM reminder WHERE datetime(dateTime) = (SELECT MIN(datetime(re.dateTime)) FROM reminder as re ) LIMIT 1")
+    @Query("SELECT * FROM reminder WHERE datetime(triggerDateTime) = (SELECT MIN(datetime(re.triggerDateTime)) FROM reminder as re ) LIMIT 1")
     LiveData<ReminderEntity> getMinDate();
 
 
@@ -35,14 +35,14 @@ public interface ReminderDao {
     LiveData<List<ReminderEntity>> getAllReminder();
 
     //to show room datetime should be treated as datetime we use the datetime() fucntion
-    @Query("SELECT * FROM reminder as reminder WHERE reminder.fired = 0 and reminder.enabled = 1 and datetime(reminder.dateTime)  =" +
-            "  (SELECT MIN(datetime(re.dateTime)) FROM reminder as re WHERE re.fired = 0 AND re.enabled = 1) LIMIT 1")
+    @Query("SELECT * FROM reminder as reminder WHERE reminder.notificationFired = 0 and reminder.notificationIsEnabled = 1 and datetime(reminder.triggerDateTime)  =" +
+            "  (SELECT MIN(datetime(re.triggerDateTime)) FROM reminder as re WHERE re.notificationFired = 0 AND re.notificationIsEnabled = 1) LIMIT 1")
     ReminderEntity getNextReminder();
 
-    @Query("UPDATE reminder SET fired = 1 where reminderId = :id")
+    @Query("UPDATE reminder SET notificationFired = 1 where reminderId = :id")
     void setFired(int id);
 
-    @Query("UPDATE reminder SET enabled = :enabled where reminderId = :id")
-    void setEnabled(int id,int enabled);
+    @Query("UPDATE reminder SET notificationIsEnabled = :notificationIsEnabled where reminderId = :id")
+    void enableNotification(int id, int notificationIsEnabled);
 
 }

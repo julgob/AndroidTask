@@ -99,7 +99,7 @@ public class Main2Activity extends AppCompatActivity {
                 }
                 for (int i = 0;i < reminderEntities.size();i++) {
                     ReminderEntity re = reminderEntities.get(i);
-                    textViewList.get(i).setText("enabled: "+re.isEnabled()+" time: "+re.getDateTime()+" fired: "+re.isFired());
+                    textViewList.get(i).setText("enabled: "+re.isNotificationIsEnabled()+" time: "+re.getTriggerDateTime()+" fired: "+re.isNotificationFired());
                 }
             }
         });
@@ -108,12 +108,12 @@ public class Main2Activity extends AppCompatActivity {
     private void setMinMaxDateTimeDebug(){
         viewModel.getMax().observe(this, x ->{
             if(x !=null)
-                textView1.setText(x.getDateTime().toString());
+                textView1.setText(x.getTriggerDateTime().toString());
         });
 
         viewModel.getMin().observe(this, x ->{
             if(x != null )
-                textView2.setText(x.getDateTime().toString());
+                textView2.setText(x.getTriggerDateTime().toString());
         });
     }
 

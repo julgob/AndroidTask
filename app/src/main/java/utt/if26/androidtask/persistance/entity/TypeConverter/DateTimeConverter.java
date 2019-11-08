@@ -24,6 +24,4 @@ public class DateTimeConverter {
         else
             return null;
     }
-
-
 }

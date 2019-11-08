@@ -41,8 +41,8 @@ public class Repository {
         return allReminder;
     }
 
-    public void archiveReminderAndGetNext(AsyncCallback receiver){
-        new SetFiredAndGetNextAsyncTask(reminderDao,receiver).execute();
+    public void archiveReminderAndSetNext(AsyncCallback receiver){
+        new SetFiredAndGetSextAsyncTask(reminderDao,receiver).execute();
     }
 
     public void addNewReminder(ReminderEntity reminder,AsyncCallback callback){
@@ -98,7 +98,7 @@ public class Repository {
         @Override
         protected Optional<ReminderEntity> doInBackground(Integer... ints) {
             ReminderEntity current = this.dao.getNextReminder();
-            this.dao.setEnabled(ints[0],1);
+            this.dao.enableNotification(ints[0],1);
             ReminderEntity next = this.dao.getNextReminder();
             return Optional.ofNullable(next);
         }
@@ -119,7 +119,7 @@ public class Repository {
 
         @Override
         protected Optional<ReminderEntity> doInBackground(Integer... ints) {
-            this.dao.setEnabled(ints[0],0);
+            this.dao.enableNotification(ints[0],0);
             ReminderEntity next = this.dao.getNextReminder();
             return Optional.ofNullable(next);
         }
@@ -151,11 +151,11 @@ public class Repository {
       }
     }
 
-    private static class SetFiredAndGetNextAsyncTask extends AsyncTask<Void,Void,List<Optional<ReminderEntity>>>{
+    private static class SetFiredAndGetSextAsyncTask extends AsyncTask<Void,Void,List<Optional<ReminderEntity>>>{
         private ReminderDao dao;
         private AsyncCallback receiver;
 
-        private SetFiredAndGetNextAsyncTask(ReminderDao dao, AsyncCallback receiver) {
+        private SetFiredAndGetSextAsyncTask(ReminderDao dao, AsyncCallback receiver) {
             this.dao = dao;
             this.receiver = receiver;
         }

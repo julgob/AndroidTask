@@ -49,7 +49,7 @@ public class MainActivityViewModel extends AndroidViewModel implements AsyncCall
         AlarmManagerUtility.cancelAlarm(getApplication().getApplicationContext());
         if(reminderToSchedule.isPresent()){
             ReminderEntity reminder = reminderToSchedule.get();
-            AlarmManagerUtility.createAlarmForReminder(getApplication().getApplicationContext(),reminder.getDateTime());
+            AlarmManagerUtility.createAlarmForReminder(getApplication().getApplicationContext(),reminder.getTriggerDateTime());
         }
     }
 

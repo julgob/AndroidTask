@@ -12,11 +12,11 @@ import utt.if26.androidtask.persistance.entity.TypeConverter.DateTimeConverter;
 @Entity(tableName = "reminder")
 public class ReminderEntity {
 
-    public ReminderEntity(String titre, OffsetDateTime dateTime) {
+    public ReminderEntity(String titre, OffsetDateTime triggerDateTime) {
         this.titre = titre;
-        this.dateTime = dateTime;
-        this.fired = false;
-        this.enabled = true;
+        this.triggerDateTime = triggerDateTime;
+        this.notificationFired = false;
+        this.notificationIsEnabled = false;
     }
 
     @PrimaryKey (autoGenerate = true)
@@ -26,28 +26,29 @@ public class ReminderEntity {
     private String titre;
 
     @TypeConverters(DateTimeConverter.class)
-    private OffsetDateTime dateTime;
+    private OffsetDateTime triggerDateTime;
+
+    @TypeConverters(DateTimeConverter.class)
+    private OffsetDateTime deadline;
+
+    private boolean notificationFired;
+    private boolean notificationIsEnabled;
 
 
-
-    private boolean fired;
-
-    private boolean enabled;
-
-    public OffsetDateTime getDateTime() {
-        return dateTime;
+    public OffsetDateTime getTriggerDateTime() {
+        return triggerDateTime;
     }
 
-    public void setDateTime(OffsetDateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setTriggerDateTime(OffsetDateTime triggerDateTime) {
+        this.triggerDateTime = triggerDateTime;
     }
 
-    public boolean isEnabled() {
-        return enabled;
+    public boolean isNotificationIsEnabled() {
+        return notificationIsEnabled;
     }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+    public void setNotificationIsEnabled(boolean notificationIsEnabled) {
+        this.notificationIsEnabled = notificationIsEnabled;
     }
 
     public int getReminderId() {
@@ -66,11 +67,19 @@ public class ReminderEntity {
         this.titre = titre;
     }
 
-    public boolean isFired() {
-        return fired;
+    public boolean isNotificationFired() {
+        return notificationFired;
     }
 
-    public void setFired(boolean fired) {
-        this.fired = fired;
+    public void setNotificationFired(boolean notificationFired) {
+        this.notificationFired = notificationFired;
+    }
+
+    public OffsetDateTime getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(OffsetDateTime deadline) {
+        this.deadline = deadline;
     }
 }
