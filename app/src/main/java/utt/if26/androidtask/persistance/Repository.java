@@ -72,11 +72,11 @@ public class Repository {
 
         @Override
         protected Optional<ReminderEntity> doInBackground(Integer... ints) {
-            ReminderEntity current = this.dao.getNextReminder();
+            ReminderEntity current = this.dao.getNextScheduledReminder();
             this.dao.deleteById(ints[0]);
             //even if we didnt deleted the scheduled reminder we send it back ,
             // so it will be scheduled again after alarmdesactivationcallback unschedule it
-            return Optional.ofNullable(this.dao.getNextReminder());
+            return Optional.ofNullable(this.dao.getNextScheduledReminder());
 
         }
 
@@ -97,9 +97,9 @@ public class Repository {
 
         @Override
         protected Optional<ReminderEntity> doInBackground(Integer... ints) {
-            ReminderEntity current = this.dao.getNextReminder();
+            ReminderEntity current = this.dao.getNextScheduledReminder();
             this.dao.enableNotification(ints[0],1);
-            ReminderEntity next = this.dao.getNextReminder();
+            ReminderEntity next = this.dao.getNextScheduledReminder();
             return Optional.ofNullable(next);
         }
 
@@ -120,7 +120,7 @@ public class Repository {
         @Override
         protected Optional<ReminderEntity> doInBackground(Integer... ints) {
             this.dao.enableNotification(ints[0],0);
-            ReminderEntity next = this.dao.getNextReminder();
+            ReminderEntity next = this.dao.getNextScheduledReminder();
             return Optional.ofNullable(next);
         }
 
@@ -141,7 +141,7 @@ public class Repository {
         @Override
         protected Optional<ReminderEntity> doInBackground(ReminderEntity... reminderEntities) {
             this.dao.insert(reminderEntities[0]);
-            ReminderEntity next = dao.getNextReminder();
+            ReminderEntity next = dao.getNextScheduledReminder();
             return Optional.ofNullable(next);
         }
 
@@ -163,11 +163,11 @@ public class Repository {
         @Override
         protected List<Optional<ReminderEntity>> doInBackground(Void ... voids){
             ArrayList<Optional<ReminderEntity>> reminderList = new ArrayList<>(2);
-            ReminderEntity firedReminder= dao.getNextReminder();
+            ReminderEntity firedReminder= dao.getNextScheduledReminder();
             if (firedReminder != null) {
                 dao.setFired(firedReminder.getReminderId());
             }
-            reminderList.add(0,Optional.ofNullable(dao.getNextReminder()));
+            reminderList.add(0,Optional.ofNullable(dao.getNextScheduledReminder()));
             reminderList.add(1,Optional.ofNullable(firedReminder));
             return reminderList;
         }
@@ -187,7 +187,7 @@ public class Repository {
 
         @Override
         protected ReminderEntity doInBackground(Void...ints){
-            return dao.getNextReminder();
+            return dao.getNextScheduledReminder();
         }
 
         @Override

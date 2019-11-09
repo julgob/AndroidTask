@@ -22,7 +22,7 @@ public class MainActivityViewModel extends AndroidViewModel implements AsyncCall
         repository = new Repository(application);
     }
 
-    public void addReminder(OffsetDateTime dateTime, Main2Activity activity){
+    public void addReminder(OffsetDateTime dateTime){
        this.repository.addNewReminder(new ReminderEntity("test",dateTime),this);
     }
 
@@ -30,20 +30,10 @@ public class MainActivityViewModel extends AndroidViewModel implements AsyncCall
         return repository.getAllReminder();
     }
 
-    public LiveData<ReminderEntity> getMax(){
-        return repository.maxdate;
-    }
-    public LiveData<ReminderEntity> getMin() {
-        return repository.mindate;
-    }
-
-    public void deleteById(int id,Main2Activity activity){
+    public void deleteById(int id){
         this.repository.deleteReminder(id,this);
     }
 
-
-    //callback après ajout, toggle , deletion
-    //si un reminderentity est dans la liste en 0 alors faut delete l'alarm current et mettre nouveau pour ce reminder
     @Override
     public void callback(Optional<ReminderEntity> reminderToSchedule,Optional<ReminderEntity> firedReminder) {
         AlarmManagerUtility.cancelAlarm(getApplication().getApplicationContext());
@@ -59,5 +49,4 @@ public class MainActivityViewModel extends AndroidViewModel implements AsyncCall
         else
             this.repository.setReminderDisabled(reminderId,this);
     }
-        //  public void addReminder()
 }

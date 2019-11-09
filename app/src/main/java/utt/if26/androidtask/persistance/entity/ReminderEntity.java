@@ -1,5 +1,6 @@
 package utt.if26.androidtask.persistance.entity;
 
+import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -81,5 +82,34 @@ public class ReminderEntity {
 
     public void setDeadline(OffsetDateTime deadline) {
         this.deadline = deadline;
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if(obj ==this)
+            return true;
+        if((obj == null) || (obj.getClass() != this.getClass())) {
+            return false;
+        }
+        ReminderEntity reminderEntity = (ReminderEntity) obj;
+        return reminderEntity.reminderId == this.reminderId;
+    }
+
+
+    @Override
+    public String toString() {
+        return "ReminderEntity{" +
+                "reminderId=" + reminderId +
+                ", titre='" + titre + '\'' +
+                ", triggerDateTime=" + triggerDateTime +
+                ", deadline=" + deadline +
+                ", notificationFired=" + notificationFired +
+                ", notificationIsEnabled=" + notificationIsEnabled +
+                '}';
     }
 }
