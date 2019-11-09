@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme">
         <receiver
             android:name=".receiver.ReminderReceiver"
-            android:notificationIsEnabled="true"
+            android:enabled="true"
             android:exported="true" />
 
         <activity

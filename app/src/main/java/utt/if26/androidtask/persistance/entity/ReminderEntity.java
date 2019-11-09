@@ -9,6 +9,10 @@ import androidx.room.TypeConverters;
 import java.time.OffsetDateTime;
 
 import utt.if26.androidtask.persistance.entity.TypeConverter.DateTimeConverter;
+import utt.if26.androidtask.persistance.entity.TypeConverter.TimeCategoryConverter;
+import utt.if26.androidtask.persistance.entity.TypeConverter.TypeCategoryCOnverter;
+import utt.if26.androidtask.persistance.entity.categoryEnum.TimeCategory;
+import utt.if26.androidtask.persistance.entity.categoryEnum.TypeCategory;
 
 @Entity(tableName = "reminder")
 public class ReminderEntity {
@@ -35,6 +39,27 @@ public class ReminderEntity {
     private boolean notificationFired;
     private boolean notificationIsEnabled;
 
+    @TypeConverters(TypeCategoryCOnverter.class)
+    private TypeCategory typeCategory;
+
+    @TypeConverters(TimeCategoryConverter.class)
+    private TimeCategory timeCategory;
+
+    public void setTypeCategory(TypeCategory typeCategory) {
+        this.typeCategory = typeCategory;
+    }
+
+    public void setTimeCategory(TimeCategory timeCategory) {
+        this.timeCategory = timeCategory;
+    }
+
+    public TypeCategory getTypeCategory() {
+        return typeCategory;
+    }
+
+    public TimeCategory getTimeCategory() {
+        return timeCategory;
+    }
 
     public OffsetDateTime getTriggerDateTime() {
         return triggerDateTime;

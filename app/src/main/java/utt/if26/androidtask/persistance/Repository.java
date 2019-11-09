@@ -33,8 +33,6 @@ public class Repository {
         AppDatabase appDatabase = AppDatabase.getINSTANCE(context);
         reminderDao = appDatabase.getReminderDao();
         allReminder =reminderDao.getAllReminder();
-        maxdate = reminderDao.getMaxDate();
-        mindate  = reminderDao.getMinDate();
     }
 
     public LiveData<List<ReminderEntity>> getAllReminder(){
