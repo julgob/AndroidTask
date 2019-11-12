@@ -1,4 +1,4 @@
-package utt.if26.androidtask.ui.home;
+package utt.if26.androidtask.ui;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import utt.if26.androidtask.R;
+import utt.if26.androidtask.persistance.entity.categoryEnum.TypeCategory;
 
 public class TabFragment extends Fragment {
    private TextView text_view_for_tab_selection;
@@ -18,10 +19,11 @@ public class TabFragment extends Fragment {
     }
 
 
-    public static TabFragment newInstance(String tabSelected) {
+    public static TabFragment newInstance(String tabSelected, TypeCategory typeCategory) {
         TabFragment fragment = new TabFragment();
         Bundle args = new Bundle();
         args.putString("b", tabSelected);
+        args.putInt("typeCategory",typeCategory.getValue());
         fragment.setArguments(args);
         return fragment;
     }
@@ -30,6 +32,8 @@ public class TabFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            //utiliser typecategory pour faire les bonnes requetes, faire ca avec un viewmodel
+
         }
     }
 
@@ -42,5 +46,4 @@ public class TabFragment extends Fragment {
         text_view_for_tab_selection.setText(getArguments().getString("b"));
         return view;
     }
-
 }
