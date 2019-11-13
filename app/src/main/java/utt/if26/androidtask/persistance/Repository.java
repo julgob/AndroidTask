@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -43,8 +44,9 @@ public class Repository {
         new SetFiredAndGetSextAsyncTask(reminderDao,receiver).execute();
     }
 
-    public void addNewReminder(ReminderEntity reminder,AsyncCallback callback){
-        new AddNewReminder(reminderDao,callback).execute(reminder);
+    //pas de callback etant donne que quandon ajoute on a jamais la notif dactivé donc pas de changement
+    public void addNewReminder(ReminderEntity reminder){
+        new AddNewReminder(reminderDao).execute(reminder);
     }
 
     public void setReminderEnabled(Integer reminderId,AsyncCallback callback){
@@ -57,7 +59,33 @@ public class Repository {
 
     public void deleteReminder(Integer reminderId,AsyncCallback callback){
         new DeleteReminder(reminderDao,callback).execute(reminderId);
+    }
 
+    public void scheduleNotification(Integer reminderId, OffsetDateTime triggerDateTime, AsyncCallback callback){
+        new ScheduleNotificationAsyncTask(reminderDao,triggerDateTime,callback).execute(reminderId);
+    }
+
+
+    private static class ScheduleNotificationAsyncTask extends AsyncTask<Integer,Void,Optional<ReminderEntity>>{
+        private ReminderDao dao;
+        private AsyncCallback callback;
+        private OffsetDateTime triggerDateTime;
+        public ScheduleNotificationAsyncTask(ReminderDao dao,OffsetDateTime triggerDateTime, AsyncCallback callback) {
+            this.dao = dao;
+            this.callback = callback;
+            this.triggerDateTime= triggerDateTime;
+        }
+
+        @Override
+        protected Optional<ReminderEntity> doInBackground(Integer... integers) {
+            this.dao.setTriggerDateTime(integers[0],triggerDateTime);
+            this.dao.enableNotification(integers[0],1);
+            return Optional.ofNullable(this.dao.getNextScheduledReminder());
+        }
+        @Override
+        protected void onPostExecute(Optional<ReminderEntity> reminderEntity) {
+            this.callback.callback(reminderEntity,Optional.empty());
+        }
     }
 
     private static class DeleteReminder extends AsyncTask<Integer,Void,Optional<ReminderEntity>>{
@@ -70,12 +98,8 @@ public class Repository {
 
         @Override
         protected Optional<ReminderEntity> doInBackground(Integer... ints) {
-            ReminderEntity current = this.dao.getNextScheduledReminder();
             this.dao.deleteById(ints[0]);
-            //even if we didnt deleted the scheduled reminder we send it back ,
-            // so it will be scheduled again after alarmdesactivationcallback unschedule it
             return Optional.ofNullable(this.dao.getNextScheduledReminder());
-
         }
 
         @Override
@@ -128,25 +152,18 @@ public class Repository {
         }
     }
 
-    private static class AddNewReminder extends AsyncTask<ReminderEntity,Void,Optional<ReminderEntity>>{
+    private static class AddNewReminder extends AsyncTask<ReminderEntity,Void,Void>{
         private ReminderDao dao;
         private AsyncCallback callback;
-        public AddNewReminder(ReminderDao dao,AsyncCallback callback) {
+        public AddNewReminder(ReminderDao dao) {
             this.dao = dao;
-            this.callback = callback;
         }
 
         @Override
-        protected Optional<ReminderEntity> doInBackground(ReminderEntity... reminderEntities) {
+        protected Void doInBackground(ReminderEntity... reminderEntities) {
             this.dao.insert(reminderEntities[0]);
-            ReminderEntity next = dao.getNextScheduledReminder();
-            return Optional.ofNullable(next);
+            return null;
         }
-
-        @Override
-        protected void onPostExecute(Optional<ReminderEntity> reminderEntity) {
-            this.callback.callback(reminderEntity,Optional.empty());
-      }
     }
 
     private static class SetFiredAndGetSextAsyncTask extends AsyncTask<Void,Void,List<Optional<ReminderEntity>>>{

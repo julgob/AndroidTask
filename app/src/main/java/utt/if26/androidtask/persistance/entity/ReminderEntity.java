@@ -17,11 +17,13 @@ import utt.if26.androidtask.persistance.entity.categoryEnum.TypeCategory;
 @Entity(tableName = "reminder")
 public class ReminderEntity {
 
-    public ReminderEntity(String titre, OffsetDateTime triggerDateTime) {
+    public ReminderEntity(String titre,OffsetDateTime deadline,TypeCategory typeCategory,TimeCategory timeCategory) {
         this.titre = titre;
-        this.triggerDateTime = triggerDateTime;
         this.notificationFired = false;
         this.notificationIsEnabled = false;
+        this.deadline = deadline;
+        this.typeCategory = typeCategory;
+        this.timeCategory = timeCategory;
     }
 
     @PrimaryKey (autoGenerate = true)

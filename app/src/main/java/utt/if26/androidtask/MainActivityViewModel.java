@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,9 +21,6 @@ public class MainActivityViewModel extends AndroidViewModel implements AsyncCall
         repository = new Repository(application);
     }
 
-    public void addReminder(OffsetDateTime dateTime){
-       this.repository.addNewReminder(new ReminderEntity("test",dateTime),this);
-    }
 
     public LiveData<List<ReminderEntity>> getAll(){
         return repository.getAllReminder();

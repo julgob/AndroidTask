@@ -6,6 +6,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 import utt.if26.androidtask.persistance.entity.ReminderEntity;
@@ -46,5 +47,9 @@ public interface ReminderDao {
 
     @Query("UPDATE reminder SET notificationIsEnabled = :notificationIsEnabled where reminderId = :id")
     void enableNotification(int id, int notificationIsEnabled);
+
+    @Query("UPDATE reminder SET triggerDateTime = :triggerDateTime WHERE reminderId = :id ")
+    void setTriggerDateTime(int id, OffsetDateTime triggerDateTime);
+
 
 }
