@@ -20,12 +20,31 @@ public class EntityActivity extends AppCompatActivity {
         setContentView(R.layout.activity_entity);
 
 
+        //==========
         // SPINNERS
+        //==========
+
+        ArrayAdapter<TypeCategory> arrayType =  new ArrayAdapter<TypeCategory>( // create for the color of the text spinner
+                this,
+                R.layout.spinner_color_layout,
+                TypeCategory.values()
+        );
+
+        arrayType.setDropDownViewResource(R.layout.spinner_dropdwon_layout);
 
         spinnerType = (Spinner) findViewById(R.id.task_spinner_type);
-        spinnerType.setAdapter(new ArrayAdapter<TypeCategory>(this, android.R.layout.simple_spinner_item,TypeCategory.values()));
+        spinnerType.setAdapter(arrayType);
+
+
+        ArrayAdapter<RatingCategory> arrayRating=  new ArrayAdapter<RatingCategory>(
+                this,
+                R.layout.spinner_color_layout,
+                RatingCategory.values()
+        );
+
+        arrayRating.setDropDownViewResource(R.layout.spinner_dropdwon_layout);
 
         spinnerRating = (Spinner) findViewById(R.id.task_spinner_rating);
-        spinnerRating.setAdapter(new ArrayAdapter<RatingCategory>(this, android.R.layout.simple_spinner_item,RatingCategory.values()));
+        spinnerRating.setAdapter(arrayRating);
     }
 }

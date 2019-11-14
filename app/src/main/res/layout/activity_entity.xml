@@ -1,17 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EntityActivity">
+    android:orientation="vertical"
+    android:weightSum="10"
+    tools:context=".EntityActivity"
+    android:background="@drawable/gradient_background">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/montserrat_bold"
+            android:text="ANDROID TASK"
+            android:textAlignment="center"
+            android:textColor="#FFF"
+            android:textSize="35dp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
 
     <GridLayout
         android:id="@+id/grid_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:columnCount="2"
-        android:layout_margin="80dp">
+        android:layout_height="0dp"
+        android:layout_margin="50dp"
+        android:layout_weight="8"
+        android:columnCount="2">
 
         <!--LIGN 1-->
 
@@ -20,18 +41,37 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_columnSpan="2"
-            android:inputType="textPersonName"
             android:layout_gravity="center"
-            android:hint="Nom de la tâche " />
+            android:layout_marginTop="10dp"
+            android:hint="Task's name"
+            android:inputType="textPersonName"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <!--LIGN 2-->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_gravity="center|left"
+            android:layout_marginTop="10dp"
+            android:text="TYPE : "
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF"
+            android:textSize="18sp" />
 
         <Spinner
             android:id="@+id/task_spinner_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_columnSpan="2"
-            android:layout_gravity="center"/>
+            android:layout_columnWeight="1"
+            android:layout_gravity="left"
+            android:layout_marginTop="10dp" />
 
         <!--LIGN 3-->
 
@@ -39,28 +79,34 @@
             android:id="@+id/tv_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_columnWeight="1"
-            android:text="DEADLINE : " />
-
+            android:layout_gravity="center|left"
+            android:layout_marginTop="10dp"
+            android:text="DEADLINE : "
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF"
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/task_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_columnWeight="1"
+            android:layout_gravity="left"
+            android:layout_marginTop="10dp"
             android:text="DATE" />
 
         <!--LIGN 4-->
 
         <TextView
-            android:id="@+id/tv_notif"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_columnSpan="2"
-            android:text="RAPPEL" />
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:text="RAPPEL :"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
 
         <!--LIGN 5-->
 
@@ -68,26 +114,42 @@
             android:id="@+id/task_notif_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_columnWeight="1"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
             android:text="DATE" />
 
         <Button
             android:id="@+id/task_notif_hour"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_columnWeight="1"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
             android:text="HOUR" />
 
+
+
         <!--LIGN 6-->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_gravity="center|left"
+            android:layout_marginTop="10dp"
+            android:text="PRIORITY : "
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF"
+            android:textSize="18sp" />
 
         <Spinner
             android:id="@+id/task_spinner_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_columnSpan="2"
-            android:layout_gravity="center"/>
+            android:layout_columnWeight="1"
+            android:layout_gravity="left"
+            android:layout_marginTop="10dp" />
 
         <!--LIGN 7-->
 
@@ -95,21 +157,33 @@
             android:id="@+id/task_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_columnSpan="2"
+            android:layout_gravity="center"
+            android:hint="Comments"
             android:inputType="text"
-            android:hint="Commentaires" />
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF"
+            android:textStyle="italic"
+            android:layout_marginTop="10dp"/>
 
-        <!--LIGN 8-->
 
-        <Button
-            android:id="@+id/btn_submit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_columnSpan="2"
-            android:text="ENREGISTRER" />
 
     </GridLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_width="190dp"
+        android:layout_height="60dp"
+        android:layout_columnSpan="2"
+        android:layout_gravity="center"
+        android:background="@drawable/custom_button"
+        android:fontFamily="@font/montserrat"
+        android:text="SAVE"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/grid_layout" />
+</LinearLayout>
