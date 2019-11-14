@@ -13,21 +13,36 @@
         android:columnCount="2"
         android:layout_margin="80dp">
 
+        <!--LIGN 1-->
+
         <EditText
             android:id="@+id/task_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_columnSpan="2"
             android:inputType="textPersonName"
+            android:layout_gravity="center"
             android:hint="Nom de la tâche " />
 
-        <EditText
-            android:id="@+id/task_type"
+        <!--LIGN 2-->
+
+        <Spinner
+            android:id="@+id/task_spinner_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_columnSpan="2"
-            android:inputType="textPersonName"
-            android:hint="Type de la tâche " />
+            android:layout_gravity="center"/>
+
+        <!--LIGN 3-->
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_columnWeight="1"
+            android:text="DEADLINE : " />
+
 
         <Button
             android:id="@+id/task_date"
@@ -37,31 +52,44 @@
             android:layout_columnWeight="1"
             android:text="DATE" />
 
+        <!--LIGN 4-->
+
+        <TextView
+            android:id="@+id/tv_notif"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_columnSpan="2"
+            android:text="RAPPEL" />
+
+        <!--LIGN 5-->
+
         <Button
-            android:id="@+id/task_hour"
+            android:id="@+id/task_notif_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_columnWeight="1"
+            android:text="DATE" />
+
+        <Button
+            android:id="@+id/task_notif_hour"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_columnWeight="1"
             android:text="HOUR" />
 
-        <EditText
-            android:id="@+id/task_notification"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_columnSpan="2"
-            android:inputType="datetime"
-            android:hint="Rappel" />
+        <!--LIGN 6-->
 
-        <RatingBar
-            android:id="@+id/task_rating"
+        <Spinner
+            android:id="@+id/task_spinner_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_columnSpan="2"
-            android:numStars="5"
-            android:stepSize=".5"
             android:layout_gravity="center"/>
+
+        <!--LIGN 7-->
 
         <EditText
             android:id="@+id/task_comment"
@@ -71,6 +99,8 @@
             android:layout_columnSpan="2"
             android:inputType="text"
             android:hint="Commentaires" />
+
+        <!--LIGN 8-->
 
         <Button
             android:id="@+id/btn_submit"
