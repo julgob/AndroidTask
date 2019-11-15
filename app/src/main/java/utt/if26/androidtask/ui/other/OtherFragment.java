@@ -6,6 +6,6 @@ import utt.if26.androidtask.ui.TabContainerParentFragment;
 public class OtherFragment extends TabContainerParentFragment {
     @Override
     public TypeCategory getTypeCategory() {
-        return TypeCategory.PROJECT;
+        return TypeCategory.OTHER;
     }
 }

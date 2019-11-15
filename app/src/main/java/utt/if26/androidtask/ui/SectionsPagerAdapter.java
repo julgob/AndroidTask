@@ -4,25 +4,30 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import java.util.ArrayList;
-
+import utt.if26.androidtask.persistance.entity.categoryEnum.TimeCategory;
 import utt.if26.androidtask.persistance.entity.categoryEnum.TypeCategory;
 
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
     int mNumOfTabs;
     TypeCategory typeCategory;
-    ArrayList<String> tabName;
 
-    public SectionsPagerAdapter(FragmentManager fm, int NumOfTabs, ArrayList<String> tabName, TypeCategory typeCategory) {
+    public SectionsPagerAdapter(FragmentManager fm, int NumOfTabs, TypeCategory typeCategory) {
         super(fm);
         this.mNumOfTabs = NumOfTabs;
-        this.tabName=tabName;
         this.typeCategory = typeCategory;
     }
 
+    //faufra changer si on veut tout voir en mm temps
     @Override
     public Fragment getItem(int position) {
-        return TabFragment.newInstance(tabName.get(position),typeCategory);
+        TimeCategory timeCategory;
+        switch (position){
+            case 0 : timeCategory = TimeCategory.TODAY;break;
+            case 1 : timeCategory = TimeCategory.TOMORROW;break;
+            case 2 : timeCategory = TimeCategory.NEXT_SEVEN_DAYS;break;
+            default: timeCategory = TimeCategory.AFTER_NEXT_SEVEN_DAYS;
+        }
+        return TabFragment.newInstance(typeCategory,timeCategory);
     }
 
     @Override

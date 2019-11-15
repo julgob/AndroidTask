@@ -65,15 +65,19 @@ public class NavigationDrawerActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    public void fabclick(View v){
+    // a suppr
+    public void fabClick(View v){
         Repository repository = new Repository(this);
-        ReminderEntity reminderEntity = new ReminderEntity("personel", OffsetDateTime.now(), TypeCategory.PERSONAL, TimeCategory.TODAY);
-        ReminderEntity reminderEntity1 = new ReminderEntity("personel", OffsetDateTime.now(), TypeCategory.PROJECT, TimeCategory.TODAY);
-        ReminderEntity reminderEntity2 = new ReminderEntity("personel", OffsetDateTime.now(), TypeCategory.OTHER, TimeCategory.TODAY);
+        ReminderEntity reminderEntity = new ReminderEntity("personel today", OffsetDateTime.now(), TypeCategory.PERSONAL, TimeCategory.TODAY);
+        ReminderEntity reminderEntity01 = new ReminderEntity("personel tomorow", OffsetDateTime.now(), TypeCategory.PERSONAL, TimeCategory.TOMORROW);
+
+        ReminderEntity reminderEntity1 = new ReminderEntity("projet", OffsetDateTime.now(), TypeCategory.PROJECT, TimeCategory.TODAY);
+        ReminderEntity reminderEntity2 = new ReminderEntity("other", OffsetDateTime.now(), TypeCategory.OTHER, TimeCategory.TODAY);
 
         repository.addNewReminder(reminderEntity);
         repository.addNewReminder(reminderEntity1);
         repository.addNewReminder(reminderEntity2);
+        repository.addNewReminder(reminderEntity01);
         Toast.makeText(this,"michel",Toast.LENGTH_LONG);
     }
 }

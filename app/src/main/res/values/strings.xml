@@ -7,6 +7,11 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
+    <string name="tab_today">Today</string>
+    <string name="tab_tomorrow">Tomorrow</string>
+    <string name="tab_next_seven_days">Next seven days</string>
+    <string name="tab_after_next_seven_days">After</string>
+
     <string name="menu_personal">Personal</string>
     <string name="menu_project">Project</string>
     <string name="menu_other">Other</string>
