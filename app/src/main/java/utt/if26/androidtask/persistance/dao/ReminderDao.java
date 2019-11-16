@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -27,6 +28,9 @@ public interface ReminderDao {
 
     @Query("SELECT * FROM reminder")
     LiveData<List<ReminderEntity>> getAllReminder();
+
+    @Query("SELECT * from reminder where reminderId = :id")
+    LiveData<ReminderEntity> getReminderForId(int id);
 
     @Query("SELECT * FROM reminder where reminder.typeCategory = :typeCategory")
     LiveData<List<ReminderEntity>> getAllReminderForTypeCategory(TypeCategory typeCategory);
@@ -51,5 +55,7 @@ public interface ReminderDao {
     @Query("UPDATE reminder SET triggerDateTime = :triggerDateTime WHERE reminderId = :id ")
     void setTriggerDateTime(int id, OffsetDateTime triggerDateTime);
 
+    @Update
+    void updateReminder(ReminderEntity reminderEntity);
 
 }

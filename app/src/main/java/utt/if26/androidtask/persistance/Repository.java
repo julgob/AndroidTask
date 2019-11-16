@@ -38,8 +38,15 @@ public class Repository {
         allReminder =reminderDao.getAllReminder();
     }
 
+    public void updateReminder(ReminderEntity reminderEntity){
+        this.reminderDao.updateReminder(reminderEntity);
+    }
+
     public LiveData<List<ReminderEntity>> getReminderForTimeAndTypeCategory(TimeCategory timeCategory, TypeCategory typeCategory){
         return this.reminderDao.getReminderForTimeAndTypeCategory(typeCategory,timeCategory);
+    }
+    public LiveData<ReminderEntity> getReminderForId(int id){
+        return this.reminderDao.getReminderForId(id);
     }
 
     public LiveData<List<ReminderEntity>> getAllReminder(){

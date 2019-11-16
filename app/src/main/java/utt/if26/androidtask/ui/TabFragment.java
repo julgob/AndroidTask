@@ -1,5 +1,6 @@
 package utt.if26.androidtask.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,8 +19,9 @@ import utt.if26.androidtask.persistance.entity.ReminderEntity;
 import utt.if26.androidtask.persistance.entity.categoryEnum.TimeCategory;
 import utt.if26.androidtask.persistance.entity.categoryEnum.TypeCategory;
 
-public class TabFragment extends Fragment {
+public class TabFragment extends Fragment implements RecyclerAdapter.OnReminderClickListener {
     TimeCategory timeCategory;
+
     TypeCategory typeCategory;
     List<ReminderEntity> all;
     RecyclerView recyclerView;
@@ -74,7 +76,7 @@ public class TabFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new RecyclerAdapter();
+        mAdapter = new RecyclerAdapter(this);
         recyclerView.setAdapter(mAdapter);
     }
 
@@ -84,4 +86,10 @@ public class TabFragment extends Fragment {
         this.recyclerView = null;
     }
 
+    @Override
+    public void onReminderClick(int position) {
+        Intent intent = new Intent(getActivity(),EditReminderActivity.class);
+        intent.putExtra("reminder_id",mAdapter.getItem(position).getReminderId());
+        startActivity(intent);
+    }
 }
