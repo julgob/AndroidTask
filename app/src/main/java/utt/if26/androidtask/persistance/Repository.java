@@ -61,12 +61,12 @@ public class Repository {
         new AddNewReminder(reminderDao).execute(reminder);
     }
 
-    public void setReminderEnabled(Integer reminderId,AsyncCallback callback){
-        new SetReminderEnabled(reminderDao,callback).execute(reminderId);
+    public void setNotificationEnabled(Integer reminderId, AsyncCallback callback){
+        new SetNotificationEnabled(reminderDao,callback).execute(reminderId);
     }
 
-    public void setReminderDisabled(Integer reminderId,AsyncCallback callback){
-        new SetReminderDisabled(reminderDao,callback).execute(reminderId);
+    public void setNotificationDisabled(Integer reminderId, AsyncCallback callback){
+        new SetNotificationDisabled(reminderDao,callback).execute(reminderId);
     }
 
     public void deleteReminder(Integer reminderId,AsyncCallback callback){
@@ -121,17 +121,16 @@ public class Repository {
     }
 
 
-    private static class SetReminderEnabled extends AsyncTask<Integer,Void,Optional<ReminderEntity>>{
+    private static class SetNotificationEnabled extends AsyncTask<Integer,Void,Optional<ReminderEntity>>{
         private ReminderDao dao;
         private AsyncCallback callback;
-        public SetReminderEnabled(ReminderDao dao,AsyncCallback callback) {
+        public SetNotificationEnabled(ReminderDao dao, AsyncCallback callback) {
             this.dao = dao;
             this.callback = callback;
         }
 
         @Override
         protected Optional<ReminderEntity> doInBackground(Integer... ints) {
-            ReminderEntity current = this.dao.getNextScheduledReminder();
             this.dao.enableNotification(ints[0],1);
             ReminderEntity next = this.dao.getNextScheduledReminder();
             return Optional.ofNullable(next);
@@ -143,10 +142,10 @@ public class Repository {
         }
     }
 
-    private static class SetReminderDisabled extends AsyncTask<Integer,Void,Optional<ReminderEntity>>{
+    private static class SetNotificationDisabled extends AsyncTask<Integer,Void,Optional<ReminderEntity>>{
         private ReminderDao dao;
         private AsyncCallback callback;
-        public SetReminderDisabled(ReminderDao dao,AsyncCallback callback) {
+        public SetNotificationDisabled(ReminderDao dao, AsyncCallback callback) {
             this.dao = dao;
             this.callback = callback;
         }
@@ -166,7 +165,6 @@ public class Repository {
 
     private static class AddNewReminder extends AsyncTask<ReminderEntity,Void,Void>{
         private ReminderDao dao;
-        private AsyncCallback callback;
         public AddNewReminder(ReminderDao dao) {
             this.dao = dao;
         }

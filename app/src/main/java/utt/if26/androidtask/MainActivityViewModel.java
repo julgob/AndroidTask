@@ -41,8 +41,8 @@ public class MainActivityViewModel extends AndroidViewModel implements AsyncCall
 
     public void toggle(int reminderId, boolean reminderActive){
         if(reminderActive)
-            this.repository.setReminderEnabled(reminderId,this);
+            this.repository.setNotificationEnabled(reminderId,this);
         else
-            this.repository.setReminderDisabled(reminderId,this);
+            this.repository.setNotificationDisabled(reminderId,this);
     }
 }
