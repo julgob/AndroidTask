@@ -20,7 +20,6 @@ import java.time.OffsetDateTime;
 
 import utt.if26.androidtask.persistance.Repository;
 import utt.if26.androidtask.persistance.entity.ReminderEntity;
-import utt.if26.androidtask.persistance.entity.categoryEnum.TimeCategory;
 import utt.if26.androidtask.persistance.entity.categoryEnum.TypeCategory;
 
 public class NavigationDrawerActivity extends AppCompatActivity {
@@ -68,16 +67,38 @@ public class NavigationDrawerActivity extends AppCompatActivity {
     // a suppr
     public void fabClick(View v){
         Repository repository = new Repository(this);
-        ReminderEntity reminderEntity = new ReminderEntity("personel today", OffsetDateTime.now(), TypeCategory.PERSONAL, TimeCategory.TODAY);
-        ReminderEntity reminderEntity01 = new ReminderEntity("personel tomorow", OffsetDateTime.now(), TypeCategory.PERSONAL, TimeCategory.TOMORROW);
+        OffsetDateTime now = OffsetDateTime.now();
+        OffsetDateTime t = now.plusDays(1);
+        OffsetDateTime n7d = now.plusDays(4);
+        OffsetDateTime a7d = now.plusDays(8);
+        OffsetDateTime in7d = now.plusDays(7);
 
-        ReminderEntity reminderEntity1 = new ReminderEntity("projet", OffsetDateTime.now(), TypeCategory.PROJECT, TimeCategory.TODAY);
-        ReminderEntity reminderEntity2 = new ReminderEntity("other", OffsetDateTime.now(), TypeCategory.OTHER, TimeCategory.TODAY);
+        now = OffsetDateTime.of(now.getYear(),now.getMonthValue(),now.getDayOfMonth(),0,0,0,0,now.getOffset());
+        t = OffsetDateTime.of(t.getYear(),t.getMonthValue(),t.getDayOfMonth(),0,0,0,0,t.getOffset());
+        n7d = OffsetDateTime.of(n7d.getYear(),n7d.getMonthValue(),n7d.getDayOfMonth(),0,0,0,0,t.getOffset());
+
+        a7d = OffsetDateTime.of(a7d.getYear(),a7d.getMonthValue(),a7d.getDayOfMonth(),0,0,0,0,t.getOffset());
+        in7d = OffsetDateTime.of(in7d.getYear(),in7d.getMonthValue(),in7d.getDayOfMonth(),0,0,0,0,t.getOffset());
+
+
+        ReminderEntity reminderEntity = new ReminderEntity("personel today", now, TypeCategory.PERSONAL);
+        ReminderEntity reminderEntity01 = new ReminderEntity("personel tomorow", t, TypeCategory.PERSONAL);
+        ReminderEntity r = new ReminderEntity("personel in n 7 days",n7d, TypeCategory.PERSONAL);
+        ReminderEntity r2 = new ReminderEntity("person apres 7 jours",a7d,TypeCategory.PERSONAL);
+        ReminderEntity r3 = new ReminderEntity("person dans 7 jours",in7d,TypeCategory.PERSONAL);
+
+
+        ReminderEntity reminderEntity1 = new ReminderEntity("projet", OffsetDateTime.now(), TypeCategory.PROJECT);
+        ReminderEntity reminderEntity2 = new ReminderEntity("other", OffsetDateTime.now(), TypeCategory.OTHER);
 
         repository.addNewReminder(reminderEntity);
         repository.addNewReminder(reminderEntity1);
         repository.addNewReminder(reminderEntity2);
         repository.addNewReminder(reminderEntity01);
+        repository.addNewReminder(r);
+        repository.addNewReminder(r3);
+
+        repository.addNewReminder(r2);
         Toast.makeText(this,"michel",Toast.LENGTH_LONG);
     }
 }

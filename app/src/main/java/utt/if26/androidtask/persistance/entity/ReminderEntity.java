@@ -9,21 +9,18 @@ import androidx.room.TypeConverters;
 import java.time.OffsetDateTime;
 
 import utt.if26.androidtask.persistance.entity.TypeConverter.DateTimeConverter;
-import utt.if26.androidtask.persistance.entity.TypeConverter.TimeCategoryConverter;
 import utt.if26.androidtask.persistance.entity.TypeConverter.TypeCategoryCOnverter;
-import utt.if26.androidtask.persistance.entity.categoryEnum.TimeCategory;
 import utt.if26.androidtask.persistance.entity.categoryEnum.TypeCategory;
 
 @Entity(tableName = "reminder")
 public class ReminderEntity {
 
-    public ReminderEntity(String titre,OffsetDateTime deadline,TypeCategory typeCategory,TimeCategory timeCategory) {
+    public ReminderEntity(String titre,OffsetDateTime deadline,TypeCategory typeCategory) {
         this.titre = titre;
         this.notificationFired = false;
         this.notificationIsEnabled = false;
         this.deadline = deadline;
         this.typeCategory = typeCategory;
-        this.timeCategory = timeCategory;
     }
 
     @PrimaryKey (autoGenerate = true)
@@ -44,23 +41,12 @@ public class ReminderEntity {
     @TypeConverters(TypeCategoryCOnverter.class)
     private TypeCategory typeCategory;
 
-    @TypeConverters(TimeCategoryConverter.class)
-    private TimeCategory timeCategory;
-
     public void setTypeCategory(TypeCategory typeCategory) {
         this.typeCategory = typeCategory;
     }
 
-    public void setTimeCategory(TimeCategory timeCategory) {
-        this.timeCategory = timeCategory;
-    }
-
     public TypeCategory getTypeCategory() {
         return typeCategory;
-    }
-
-    public TimeCategory getTimeCategory() {
-        return timeCategory;
     }
 
     public OffsetDateTime getTriggerDateTime() {

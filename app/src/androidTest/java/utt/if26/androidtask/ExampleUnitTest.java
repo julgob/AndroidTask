@@ -10,12 +10,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.IOException;
-import java.time.OffsetDateTime;
-import java.util.List;
 
 import utt.if26.androidtask.persistance.dao.ReminderDao;
 import utt.if26.androidtask.persistance.database.AppDatabase;
@@ -41,7 +38,7 @@ public class ExampleUnitTest {
         Context context = ApplicationProvider.getApplicationContext();
         db = Room.inMemoryDatabaseBuilder(context, AppDatabase.class).build();
         dao = db.getReminderDao();
-         reminderEntity = new ReminderEntity("entity 1",OffsetDateTime.now());
+
          dao.insert(reminderEntity);
 
     }
@@ -49,11 +46,5 @@ public class ExampleUnitTest {
     @After
     public void closeDb() throws IOException {
         db.close();
-    }
-
-    @Test
-    public void writeUserAndReadInList() throws Exception {
-        List<ReminderEntity> rem =(List<ReminderEntity>) LiveDataTestUtil.getValue(dao.getMaxDate());
-        assert rem.get(0) == reminderEntity;
     }
 }

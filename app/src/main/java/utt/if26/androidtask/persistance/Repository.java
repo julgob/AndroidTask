@@ -14,7 +14,6 @@ import utt.if26.androidtask.AsyncCallback;
 import utt.if26.androidtask.persistance.dao.ReminderDao;
 import utt.if26.androidtask.persistance.database.AppDatabase;
 import utt.if26.androidtask.persistance.entity.ReminderEntity;
-import utt.if26.androidtask.persistance.entity.categoryEnum.TimeCategory;
 import utt.if26.androidtask.persistance.entity.categoryEnum.TypeCategory;
 
 public class Repository {
@@ -42,8 +41,8 @@ public class Repository {
         this.reminderDao.updateReminder(reminderEntity);
     }
 
-    public LiveData<List<ReminderEntity>> getReminderForTimeAndTypeCategory(TimeCategory timeCategory, TypeCategory typeCategory){
-        return this.reminderDao.getReminderForTimeAndTypeCategory(typeCategory,timeCategory);
+    public LiveData<List<ReminderEntity>> getReminderForTypeCategory(TypeCategory typeCategory){
+        return this.reminderDao.getAllReminderForTypeCategory(typeCategory);
     }
     public LiveData<ReminderEntity> getReminderForId(int id){
         return this.reminderDao.getReminderForId(id);

@@ -3,7 +3,6 @@ package utt.if26.androidtask.ui;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import utt.if26.androidtask.R;
 import utt.if26.androidtask.persistance.Repository;
@@ -17,8 +16,6 @@ public class EditReminderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_reminder);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         this.repository = new Repository(this);
         int reminderId;
         if(getIntent().getExtras() != null){
