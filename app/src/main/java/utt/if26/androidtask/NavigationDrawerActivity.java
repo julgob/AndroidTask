@@ -1,9 +1,9 @@
 package utt.if26.androidtask;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -15,12 +15,6 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-
-import java.time.OffsetDateTime;
-
-import utt.if26.androidtask.persistance.Repository;
-import utt.if26.androidtask.persistance.entity.ReminderEntity;
-import utt.if26.androidtask.persistance.entity.categoryEnum.TypeCategory;
 
 public class NavigationDrawerActivity extends AppCompatActivity {
 
@@ -66,7 +60,9 @@ public class NavigationDrawerActivity extends AppCompatActivity {
 
     // a suppr
     public void fabClick(View v){
-        Repository repository = new Repository(this);
+        Intent intent = new Intent(this,EntityActivity.class);
+        startActivity(intent);
+        /*Repository repository = new Repository(this);
         OffsetDateTime now = OffsetDateTime.now();
         OffsetDateTime t = now.plusDays(1);
         OffsetDateTime n7d = now.plusDays(4);
@@ -99,6 +95,6 @@ public class NavigationDrawerActivity extends AppCompatActivity {
         repository.addNewReminder(r3);
 
         repository.addNewReminder(r2);
-        Toast.makeText(this,"michel",Toast.LENGTH_LONG);
+        Toast.makeText(this,"michel",Toast.LENGTH_LONG);*/
     }
 }

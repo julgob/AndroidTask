@@ -37,7 +37,7 @@
         <!--LIGN 1-->
 
         <EditText
-            android:id="@+id/task_name"
+            android:id="@+id/activity_entity_task_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_columnSpan="2"
@@ -66,7 +66,7 @@
             android:textSize="18sp" />
 
         <Spinner
-            android:id="@+id/task_spinner_type"
+            android:id="@+id/activity_entity_task_spinner_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
@@ -94,7 +94,8 @@
             android:layout_columnWeight="1"
             android:layout_gravity="left"
             android:layout_marginTop="10dp"
-            android:text="DATE" />
+            android:text="DATE"
+            android:onClick="onDeadlineDateClick"/>
 
         <!--LIGN 4-->
 
@@ -185,5 +186,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/grid_layout" />
+        app:layout_constraintTop_toBottomOf="@+id/grid_layout"
+        android:onClick="onSaveClick"/>
 </LinearLayout>
