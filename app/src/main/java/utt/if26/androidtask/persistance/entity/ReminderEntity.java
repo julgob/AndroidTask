@@ -9,18 +9,21 @@ import androidx.room.TypeConverters;
 import java.time.OffsetDateTime;
 
 import utt.if26.androidtask.persistance.entity.TypeConverter.DateTimeConverter;
+import utt.if26.androidtask.persistance.entity.TypeConverter.RatingEnumConverter;
 import utt.if26.androidtask.persistance.entity.TypeConverter.TypeCategoryCOnverter;
+import utt.if26.androidtask.persistance.entity.categoryEnum.RatingCategory;
 import utt.if26.androidtask.persistance.entity.categoryEnum.TypeCategory;
 
 @Entity(tableName = "reminder")
 public class ReminderEntity {
 
-    public ReminderEntity(String titre,OffsetDateTime deadline,TypeCategory typeCategory) {
+    public ReminderEntity(String titre,OffsetDateTime deadline,TypeCategory typeCategory,RatingCategory rating) {
         this.titre = titre;
         this.notificationFired = false;
         this.notificationIsEnabled = false;
         this.deadline = deadline;
         this.typeCategory = typeCategory;
+        this.rating = rating;
     }
 
     @PrimaryKey (autoGenerate = true)
@@ -35,11 +38,22 @@ public class ReminderEntity {
     @TypeConverters(DateTimeConverter.class)
     private OffsetDateTime deadline;
 
+    @TypeConverters(RatingEnumConverter.class)
+    private RatingCategory rating;
+
     private boolean notificationFired;
     private boolean notificationIsEnabled;
 
     @TypeConverters(TypeCategoryCOnverter.class)
     private TypeCategory typeCategory;
+
+    public RatingCategory getRating() {
+        return rating;
+    }
+
+    public void setRating(RatingCategory rating) {
+        this.rating = rating;
+    }
 
     public void setTypeCategory(TypeCategory typeCategory) {
         this.typeCategory = typeCategory;

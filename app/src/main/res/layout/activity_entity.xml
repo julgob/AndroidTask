@@ -97,37 +97,10 @@
             android:text="DATE"
             android:onClick="onDeadlineDateClick"/>
 
-        <!--LIGN 4-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_columnSpan="2"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:text="RAPPEL :"
-            android:textColor="#FFFFFF"
             android:textSize="18sp" />
 
         <!--LIGN 5-->
-
-        <Button
-            android:id="@+id/task_notif_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:text="DATE" />
-
-        <Button
-            android:id="@+id/task_notif_hour"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:text="HOUR" />
 
 
 

@@ -28,6 +28,7 @@ public class EntityActivity extends AppCompatActivity {
     private String reminderTitle;
     private Repository repository;
     private TypeCategory typeCategory;
+    private RatingCategory rating;
 
     private EditText reminderTitleView;
 
@@ -86,6 +87,7 @@ public class EntityActivity extends AppCompatActivity {
     public void onSaveClick(View v){
         this.reminderTitle = this.reminderTitleView.getText().toString();
         this.typeCategory =(TypeCategory) this.spinnerType.getSelectedItem();
+        this.rating = (RatingCategory) this.spinnerRating.getSelectedItem();
         ReminderEntity reminder;
         if(canCreateReminder()){
             reminder = createReminder();
@@ -98,11 +100,11 @@ public class EntityActivity extends AppCompatActivity {
 
     private boolean canCreateReminder(){
         return  deadlineDay != 0 && deadlineMonth !=0 && deadlineYear != 0 &&
-               typeCategory != null && reminderTitle != null && reminderTitle != "" ;
+               typeCategory != null && reminderTitle != null && reminderTitle != "" && rating != null;
     }
 
     private ReminderEntity createReminder(){
-        ReminderEntity reminderEntity = new ReminderEntity(this.reminderTitle,createDeadline(),this.typeCategory);
+        ReminderEntity reminderEntity = new ReminderEntity(this.reminderTitle,createDeadline(),this.typeCategory,this.rating);
         return reminderEntity;
     }
 

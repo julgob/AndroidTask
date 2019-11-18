@@ -11,11 +11,12 @@ import androidx.room.TypeConverters;
 import utt.if26.androidtask.persistance.dao.ReminderDao;
 import utt.if26.androidtask.persistance.entity.ReminderEntity;
 import utt.if26.androidtask.persistance.entity.TypeConverter.DateTimeConverter;
+import utt.if26.androidtask.persistance.entity.TypeConverter.RatingEnumConverter;
 import utt.if26.androidtask.persistance.entity.TypeConverter.TypeCategoryCOnverter;
 
 
 @Database(entities = {ReminderEntity.class},version = 1)
-@TypeConverters({TypeCategoryCOnverter.class, DateTimeConverter.class})
+@TypeConverters({TypeCategoryCOnverter.class, DateTimeConverter.class, RatingEnumConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase INSTANCE;
