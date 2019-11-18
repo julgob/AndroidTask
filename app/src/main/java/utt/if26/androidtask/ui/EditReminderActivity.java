@@ -33,7 +33,7 @@ public class EditReminderActivity extends AppCompatActivity implements AsyncCall
 
     }
 
-    private void showReminder(ReminderEntity reminderEntity){
+    public void showReminder(ReminderEntity reminderEntity){
         this.reminderEntity = reminderEntity;
         //aficher sur lecran toute les bonnes valeur
     }
@@ -42,20 +42,20 @@ public class EditReminderActivity extends AppCompatActivity implements AsyncCall
     //utiliser la methode updatereminder du repo, on a qua passer lobjet reminder entity modifié (faut que lid soit le meme evidemment
 
 
-    private void deleteReminder(int id){
+    public void deleteReminder(int id){
         this.repository.deleteReminder(id,this);
         this.onBackPressed();
     }
 
-    private void scheduleNotification(int reminderId,OffsetDateTime triggerDateTime){
+    public void scheduleNotification(int reminderId,OffsetDateTime triggerDateTime){
         this.repository.scheduleNotification(reminderId,triggerDateTime,this);
     }
 
-    private void disableNotification(int reminderId){
+    public void disableNotification(int reminderId){
         this.repository.setNotificationDisabled(reminderId,this);
     }
 
-    private void enableNotification(int reminderId){
+    public void enableNotification(int reminderId){
         this.repository.setNotificationEnabled(reminderId,this);
     }
 
