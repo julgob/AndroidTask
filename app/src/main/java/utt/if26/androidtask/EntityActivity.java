@@ -29,8 +29,11 @@ public class EntityActivity extends AppCompatActivity {
     private Repository repository;
     private TypeCategory typeCategory;
     private RatingCategory rating;
+    private String comment;
 
     private EditText reminderTitleView;
+    private EditText commentView;
+
 
 
     @Override
@@ -39,7 +42,7 @@ public class EntityActivity extends AppCompatActivity {
         repository = new Repository(this);
         setContentView(R.layout.activity_entity);
         reminderTitleView = findViewById(R.id.activity_entity_task_name);
-
+        commentView =findViewById(R.id.activity_entity_task_comment);
         //==========
         // SPINNERS
         //==========
@@ -88,6 +91,7 @@ public class EntityActivity extends AppCompatActivity {
         this.reminderTitle = this.reminderTitleView.getText().toString();
         this.typeCategory =(TypeCategory) this.spinnerType.getSelectedItem();
         this.rating = (RatingCategory) this.spinnerRating.getSelectedItem();
+        this.comment = this.commentView.getText().toString();
         ReminderEntity reminder;
         if(canCreateReminder()){
             reminder = createReminder();
@@ -104,7 +108,7 @@ public class EntityActivity extends AppCompatActivity {
     }
 
     private ReminderEntity createReminder(){
-        ReminderEntity reminderEntity = new ReminderEntity(this.reminderTitle,createDeadline(),this.typeCategory,this.rating);
+        ReminderEntity reminderEntity = new ReminderEntity(this.reminderTitle,createDeadline(),this.typeCategory,this.rating,comment);
         return reminderEntity;
     }
 

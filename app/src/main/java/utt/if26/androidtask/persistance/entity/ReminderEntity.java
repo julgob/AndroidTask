@@ -17,13 +17,14 @@ import utt.if26.androidtask.persistance.entity.categoryEnum.TypeCategory;
 @Entity(tableName = "reminder")
 public class ReminderEntity {
 
-    public ReminderEntity(String titre,OffsetDateTime deadline,TypeCategory typeCategory,RatingCategory rating) {
+    public ReminderEntity(String titre,OffsetDateTime deadline,TypeCategory typeCategory,RatingCategory rating,String comment) {
         this.titre = titre;
         this.notificationFired = false;
         this.notificationIsEnabled = false;
         this.deadline = deadline;
         this.typeCategory = typeCategory;
         this.rating = rating;
+        this.comment =comment;
     }
 
     @PrimaryKey (autoGenerate = true)
@@ -41,6 +42,8 @@ public class ReminderEntity {
     @TypeConverters(RatingEnumConverter.class)
     private RatingCategory rating;
 
+    private String comment;
+
     private boolean notificationFired;
     private boolean notificationIsEnabled;
 
@@ -53,6 +56,14 @@ public class ReminderEntity {
 
     public void setRating(RatingCategory rating) {
         this.rating = rating;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public void setTypeCategory(TypeCategory typeCategory) {

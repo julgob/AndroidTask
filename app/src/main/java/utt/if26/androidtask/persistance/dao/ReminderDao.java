@@ -43,6 +43,9 @@ public interface ReminderDao {
     @Query("UPDATE reminder SET notificationFired = 1 where reminderId = :id")
     void setFired(int id);
 
+    @Query("UPDATE reminder SET notificationFired = 0 where reminderId = :id")
+    void setNotFired(int id);
+
     @Query("UPDATE reminder SET notificationIsEnabled = :notificationIsEnabled where reminderId = :id")
     void enableNotification(int id, int notificationIsEnabled);
 

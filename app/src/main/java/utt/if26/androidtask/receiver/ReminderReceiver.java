@@ -46,10 +46,10 @@ public class ReminderReceiver extends BroadcastReceiver implements AsyncCallback
     }
 
     private Notification buildNotification(Context context,ReminderEntity reminderEntity){
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "241")
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "0")
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle(reminderEntity.getTitre())
-                .setContentText(reminderEntity.getTitre())
+                .setContentText(reminderEntity.getComment())
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
         return builder.build();
     }

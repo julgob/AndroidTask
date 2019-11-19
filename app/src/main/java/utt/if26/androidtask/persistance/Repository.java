@@ -90,6 +90,7 @@ public class Repository {
 
         @Override
         protected Optional<ReminderEntity> doInBackground(Integer... integers) {
+            this.dao.setNotFired(integers[0]);
             this.dao.setTriggerDateTime(integers[0],triggerDateTime);
             this.dao.enableNotification(integers[0],1);
             return Optional.ofNullable(this.dao.getNextScheduledReminder());
