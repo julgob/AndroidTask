@@ -148,7 +148,7 @@
         android:id="@+id/btn_submit"
         android:layout_width="190dp"
         android:layout_height="60dp"
-        android:layout_columnSpan="2"
+
         android:layout_gravity="center"
         android:background="@drawable/custom_button"
         android:fontFamily="@font/montserrat"

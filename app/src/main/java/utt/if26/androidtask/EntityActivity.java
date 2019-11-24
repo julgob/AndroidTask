@@ -42,7 +42,7 @@ public class EntityActivity extends AppCompatActivity {
         repository = new Repository(this);
         setContentView(R.layout.activity_entity);
         reminderTitleView = findViewById(R.id.activity_entity_task_name);
-        commentView =findViewById(R.id.activity_entity_task_comment);
+        commentView = findViewById(R.id.activity_entity_task_comment);
         //==========
         // SPINNERS
         //==========

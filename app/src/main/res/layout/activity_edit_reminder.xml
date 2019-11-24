@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,50 +8,112 @@
     android:orientation="vertical"
     android:weightSum="10">
 
-
-    <Button
-        android:id="@+id/button8"
-        android:layout_width="wrap_content"
+    <!--Name of the task-->
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="170dp"
-        android:onClick="onTimeClick"
-        android:text="heure"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_weight="1">
 
-    <Button
-        android:id="@+id/button9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="224dp"
-        android:onClick="onDateClick"
-        android:text="date"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/activity_edit_reminder_task_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/montserrat_bold"
+            android:text="ANDROID TASK"
+            android:textAlignment="center"
+            android:textColor="#FFF"
+            android:textSize="24dp"
+            android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/button10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="254dp"
-        android:layout_marginTop="205dp"
-        android:text="Save notif"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:onClick="onSaveNotifClick"/>
+    </RelativeLayout>
+
+
+    <GridLayout
+        android:id="@+id/grid_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="50dp"
+        android:layout_weight="8"
+        android:columnCount="2">
+
+        <!--LIGN 1-->
+        <!--Rappel - Type-->
+
+
+
+        <!--LIGN 2-->
+        <!--Rappel - Priority-->
+
+        <!--LIGN 3-->
+        <!--Rappel - Deadline-->
+
+
+        <!--LIGN 4-->
+        <!--TV: Notifier ?-->
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnSpan="2"
+            android:layout_gravity="center"
+            android:text="Notification ? "
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF"
+            android:textSize="20sp" />
+
+        <!--LIGN 5-->
+        <!--2 buttons: Date + Heure -->
+        <Button
+            android:id="@+id/button9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:onClick="onDateClick"
+            android:text="date"/>
+
+        <Button
+            android:id="@+id/button8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:onClick="onTimeClick"
+            android:text="heure"/>
+
+
+
+        <!--LIGN 6-->
+        <!--Button: Save notif-->
+-       <Button
+            android:id="@+id/button10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnSpan="2"
+            android:text="Save notif"
+            android:layout_columnWeight="1"
+            android:onClick="onSaveNotifClick"/>
+
+
+        <!--LIGN 7-->
+        <!--Comments ?-->
+
+
+
+
+
+    </GridLayout>
+
+    <!--Button: Delete-->
 
 
     <Button
         android:id="@+id/button7"
         android:layout_width="190dp"
         android:layout_height="60dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="23dp"
-        android:onClick="onDeleteClick"
+        android:layout_gravity="center"
         android:background="@drawable/custom_button"
         android:fontFamily="@font/montserrat"
+        android:onClick="onDeleteClick"
         android:text="delete"
         android:textColor="#000000"
         android:textSize="20sp"
@@ -60,4 +122,4 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

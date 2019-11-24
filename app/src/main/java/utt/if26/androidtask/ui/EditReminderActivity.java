@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -31,12 +32,16 @@ public class EditReminderActivity extends AppCompatActivity implements AsyncCall
     private int notifDay;
     private int notifYear;
 
+    private TextView reminderTitleTV;
+    private String reminderTitle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_reminder);
         this.repository = new Repository(this);
         int reminderId;
+
         if(getIntent().getExtras() != null){
             if(getIntent().getExtras().containsKey("reminder_id")){
                 reminderId = getIntent().getIntExtra("reminder_id",0);
@@ -64,6 +69,9 @@ public class EditReminderActivity extends AppCompatActivity implements AsyncCall
 
     public void showReminder(ReminderEntity reminderEntity){
         this.reminderEntity = reminderEntity;
+        reminderTitle = reminderEntity.getTitre();
+        reminderTitleTV = (TextView) findViewById(R.id.activity_edit_reminder_task_name);
+        reminderTitleTV.setText(reminderTitle);
         //aficher sur lecran toute les bonnes valeur
     }
 
