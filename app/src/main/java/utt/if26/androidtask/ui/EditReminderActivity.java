@@ -66,7 +66,8 @@ public class EditReminderActivity extends AppCompatActivity implements AsyncCall
         }
     }
 
-
+    // fonction appelé en async (livedata) donc il faut mettre a jour tous les champs dans cette fonction
+    //cette fonction sera appelé quand le reminder est obtenu pour la première foix mais aussi quand on le met ajour depuis cetteactivité
     public void showReminder(ReminderEntity reminderEntity){
         this.reminderEntity = reminderEntity;
         reminderTitle = reminderEntity.getTitre();
@@ -157,5 +158,16 @@ public class EditReminderActivity extends AppCompatActivity implements AsyncCall
             ReminderEntity reminder = reminderToSchedule.get();
             AlarmManagerUtility.createAlarmForReminder(getApplication().getApplicationContext(),reminder.getTriggerDateTime());
         }
+    }
+
+    //a appeler depuis le layout dans le onclick du bonton pour sauvegarder les changements
+    public void onUpdateReminderClick(View v){
+        this.updateLocalReminder();
+        this.repository.updateReminder(this.reminderEntity);
+    }
+
+    //met a jour le reminder de la classe avec les donnes des champs se lactivité
+    private void updateLocalReminder(){
+        // TO DO : mettre a jourle reminder
     }
 }
