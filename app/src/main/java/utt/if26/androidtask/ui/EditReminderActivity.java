@@ -106,6 +106,8 @@ public class EditReminderActivity extends AppCompatActivity implements AsyncCall
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 notifHour    = hourOfDay;
                 notifMinute  = minute;
+
+                Toast.makeText(getApplicationContext(),notifHour + " h " + notifMinute,Toast.LENGTH_LONG).show();
             }
         },offsetDateTime.getHour(),offsetDateTime.getMinute(),true);
         picker.show();
@@ -119,6 +121,8 @@ public class EditReminderActivity extends AppCompatActivity implements AsyncCall
                 notifYear   = year;
                 notifMonth  = month+1;
                 notifDay    = dayOfMonth;
+                Toast.makeText(getApplicationContext(),notifDay + " / " + notifMonth + " / " + notifYear,Toast.LENGTH_LONG).show();
+
             }
         },offsetDateTime.getYear(),offsetDateTime.getMonthValue()-1,offsetDateTime.getDayOfMonth());
         picker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
@@ -140,6 +144,7 @@ public class EditReminderActivity extends AppCompatActivity implements AsyncCall
 
     private void createNotif(){
         this.repository.scheduleNotification(this.reminderEntity.getReminderId(),makeNotifDateTime(),this);
+        Toast.makeText(this,"Notification created for the " + notifDay + " / " + notifMonth + " / " + notifYear + " at " + notifHour + " h " + notifMinute,Toast.LENGTH_LONG).show();
     }
 
     private OffsetDateTime makeNotifDateTime(){

@@ -81,6 +81,8 @@ public class EntityActivity extends AppCompatActivity {
                 deadlineDay = dayOfMonth;
                 deadlineMonth = month +1; // offset goes from 1 to 12, picker from 0 to 11
                 deadlineYear = year;
+
+                Toast.makeText(getApplicationContext(),deadlineDay + " / " + deadlineMonth + " / " + deadlineYear,Toast.LENGTH_LONG).show();
             }
         },offsetDateTime.getYear(),offsetDateTime.getMonthValue() - 1/*offset goes from 1 to 12, picker from 0 to 11*/,offsetDateTime.getDayOfMonth());
         datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
