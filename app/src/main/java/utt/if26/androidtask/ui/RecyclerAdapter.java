@@ -13,16 +13,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import utt.if26.androidtask.R;
+import utt.if26.androidtask.persistance.Repository;
 import utt.if26.androidtask.persistance.entity.ReminderEntity;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> {
     private List<ReminderEntity> reminderEntityList;
     private OnReminderClickListener reminderClickListener;
-
+    private  Repository repository;
     public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public TextView textView;
         public CheckBox checkBox;
+        private Repository repository;
+        private ReminderEntity reminderEntity;
         private OnReminderClickListener reminderClickListener;
+
+        private void setRepository(Repository repository){
+            this.repository = repository;
+        }
         public MyViewHolder(View v,OnReminderClickListener reminderClickListener) {
             super(v);
             this.reminderClickListener= reminderClickListener;
@@ -32,20 +39,38 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             // tâche complétée ou non ?
 
             v.setOnClickListener(this);
+            RecyclerAdapter.MyViewHolder self = this;
             checkBox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // String text = (String) textView.getText();
+                    ReminderEntity reminderEntity = self.getReminderEntity();
                     if (checkBox.isChecked()){
-                        textView.setPaintFlags(textView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                        reminderEntity.setCompleted(true);
+                        repository.updateReminder(reminderEntity);
+                        //textView.setPaintFlags(textView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                     } else {
-                        textView.setPaintFlags(textView.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+                        reminderEntity.setCompleted(false);
+                        repository.updateReminder(reminderEntity);
+                        //textView.setPaintFlags(textView.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
                     }
                 }
             });
         }
 
+        public ReminderEntity getReminderEntity() {
+            return reminderEntity;
+        }
 
+        public void setReminderEntity(ReminderEntity reminderEntity){
+            this.reminderEntity = reminderEntity;
+            textView.setText(reminderEntity.getTitre());
+            if(reminderEntity.getCompleted()) {
+                textView.setPaintFlags(textView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                checkBox.setChecked(true);
+            }else {
+                textView.setPaintFlags(textView.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+            }
+        }
 
         @Override
         public void onClick(View v) {
@@ -53,9 +78,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         }
     }
 
-    public RecyclerAdapter(OnReminderClickListener reminderClickListener) {
+    public RecyclerAdapter(TabFragment tabFramgment) {
+        this.repository = new Repository(tabFramgment.getActivity());
         this.reminderEntityList = new ArrayList<>();
-        this.reminderClickListener  = reminderClickListener;
+        this.reminderClickListener  = tabFramgment;
     }
 
     public void setReminderEntityList(List<ReminderEntity> reminderEntityList) {
@@ -75,13 +101,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         // changer pour mettre toute les data de reminderentity
-        holder.textView.setText(reminderEntityList.get(position).getTitre());
-        //holder.setReminderEntity(reminderEntityList.get(position))
-
-        if(reminderEntityList.get(position).getCompleted()){
-            holder.textView.setPaintFlags(holder.textView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            holder.checkBox.setChecked(true);
-        }
+        holder.setReminderEntity(reminderEntityList.get(position));
+        holder.setRepository(this.repository);
     }
 
     @Override

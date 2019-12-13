@@ -38,7 +38,8 @@ public class Repository {
     }
 
     public void updateReminder(ReminderEntity reminderEntity){
-        this.reminderDao.updateReminder(reminderEntity);
+        new UpdateReminder(reminderDao).execute(reminderEntity);
+        //this.reminderDao.updateReminder(reminderEntity);
     }
 
     public LiveData<List<ReminderEntity>> getReminderForTypeCategory(TypeCategory typeCategory){
@@ -173,6 +174,19 @@ public class Repository {
         @Override
         protected Void doInBackground(ReminderEntity... reminderEntities) {
             this.dao.insert(reminderEntities[0]);
+            return null;
+        }
+    }
+
+    private static class UpdateReminder extends AsyncTask<ReminderEntity,Void,Void>{
+        private ReminderDao dao;
+        public UpdateReminder(ReminderDao dao) {
+            this.dao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(ReminderEntity... reminderEntities) {
+            this.dao.updateReminder(reminderEntities[0]);
             return null;
         }
     }
