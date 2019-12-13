@@ -110,7 +110,7 @@ public class EntityActivity extends AppCompatActivity {
     }
 
     private ReminderEntity createReminder(){
-        ReminderEntity reminderEntity = new ReminderEntity(this.reminderTitle,createDeadline(),this.typeCategory,this.rating,comment);
+        ReminderEntity reminderEntity = new ReminderEntity(this.reminderTitle,createDeadline(),this.typeCategory,this.rating,comment,false);
         return reminderEntity;
     }
 

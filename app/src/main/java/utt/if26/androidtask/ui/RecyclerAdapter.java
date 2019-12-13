@@ -26,9 +26,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         public MyViewHolder(View v,OnReminderClickListener reminderClickListener) {
             super(v);
             this.reminderClickListener= reminderClickListener;
-            //avoir tous les autres trucs pour reminderentity
             textView = v.findViewById(R.id.fragment_tab__recycler_item_titre);
             checkBox = v.findViewById(R.id.fragment_tab__recycler_item_checkBox);
+
+            // tâche complétée ou non ?
+
             v.setOnClickListener(this);
             checkBox.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -76,6 +78,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         holder.textView.setText(reminderEntityList.get(position).getTitre());
         //holder.setReminderEntity(reminderEntityList.get(position))
 
+        if(reminderEntityList.get(position).getCompleted()){
+            holder.textView.setPaintFlags(holder.textView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.checkBox.setChecked(true);
+        }
     }
 
     @Override
