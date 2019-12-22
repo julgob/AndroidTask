@@ -9,6 +9,7 @@
     android:weightSum="10">
 
     <!--Name of the task-->
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,17 +30,19 @@
     </RelativeLayout>
 
 
+    <!--Button: Delete-->
+
+
     <GridLayout
         android:id="@+id/grid_layout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="406dp"
         android:layout_margin="50dp"
         android:layout_weight="8"
         android:columnCount="2">
 
         <!--LIGN 1-->
         <!--Rappel - Type-->
-
 
 
         <!--LIGN 2-->
@@ -70,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
             android:onClick="onDateClick"
-            android:text="date"/>
+            android:text="date" />
 
         <Button
             android:id="@+id/button8"
@@ -78,33 +81,45 @@
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
             android:onClick="onTimeClick"
-            android:text="heure"/>
-
+            android:text="heure" />
 
 
         <!--LIGN 6-->
         <!--Button: Save notif-->
--       <Button
+        -
+
+        <Button
             android:id="@+id/button10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_columnSpan="2"
-            android:text="Save notif"
             android:layout_columnWeight="1"
-            android:onClick="onSaveNotifClick"/>
+            android:onClick="onSaveNotifClick"
+            android:text="Save notif" />
 
 
         <!--LIGN 7-->
         <!--Comments ?-->
 
 
-
-
-
     </GridLayout>
 
-    <!--Button: Delete-->
-
+    <Switch
+        android:id="@+id/edit_reminder_notif_switch"
+        android:layout_width="264dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="-20dp"
+        android:layout_marginBottom="50dp"
+        android:layout_weight="1"
+        android:backgroundTint="#00B30000"
+        android:backgroundTintMode="multiply"
+        android:showText="false"
+        android:text="Notification active"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:trackTint="#00A81414"
+        android:trackTintMode="add" />
 
     <Button
         android:id="@+id/button7"

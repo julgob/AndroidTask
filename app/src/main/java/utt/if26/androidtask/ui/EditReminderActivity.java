@@ -7,7 +7,9 @@ import android.app.TimePickerDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -34,11 +36,13 @@ public class EditReminderActivity extends AppCompatActivity implements AsyncCall
 
     private TextView reminderTitleTV;
     private String reminderTitle;
+    private Switch notifSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_reminder);
+        this.notifSwitch = findViewById(R.id.edit_reminder_notif_switch);
         this.repository = new Repository(this);
         int reminderId;
 
@@ -69,11 +73,32 @@ public class EditReminderActivity extends AppCompatActivity implements AsyncCall
     // fonction appelé en async (livedata) donc il faut mettre a jour tous les champs dans cette fonction
     //cette fonction sera appelé quand le reminder est obtenu pour la première foix mais aussi quand on le met ajour depuis cetteactivité
     public void showReminder(ReminderEntity reminderEntity){
-        this.reminderEntity = reminderEntity;
-        reminderTitle = reminderEntity.getTitre();
-        reminderTitleTV = (TextView) findViewById(R.id.activity_edit_reminder_task_name);
-        reminderTitleTV.setText(reminderTitle);
+        if(reminderEntity!=null){
+            this.reminderEntity = reminderEntity;
+            reminderTitle = reminderEntity.getTitre();
+            reminderTitleTV = (TextView) findViewById(R.id.activity_edit_reminder_task_name);
+            reminderTitleTV.setText(reminderTitle);
+            if(reminderEntity.isNotificationIsEnabled()){
+                this.notifSwitch.setChecked(true);
+            }
+            EditReminderActivity self = this;
+            notifSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    self.activateNotif(isChecked);
+                }
+            });
+        }
         //aficher sur lecran toute les bonnes valeur
+    }
+
+    public void activateNotif(boolean isActivate){
+
+        if(isActivate){
+            this.repository.setNotificationEnabled(reminderEntity.getReminderId(),this::callback);
+        }else {
+            this.repository.setNotificationDisabled(reminderEntity.getReminderId(),this::callback);
+        }
     }
 
     //faudra une fonction qui update le reminder quand on clique save
