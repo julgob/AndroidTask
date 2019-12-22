@@ -29,14 +29,14 @@ public abstract class TabContainerParentFragment extends Fragment {
         tabLayout = root.findViewById(R.id.tabs);
         mViewPager = root.findViewById(R.id.container);
         tabName=new ArrayList<>();
-        for(int i=0;i<4;i++){
+        for(int i=0;i<5;i++){
             String tabTitle;
             switch (i){
                 case 0 : tabTitle = getResources().getString(R.string.tab_today);break;
                 case 1 : tabTitle = getResources().getString(R.string.tab_tomorrow);break;
                 case 2 : tabTitle = getResources().getString(R.string.tab_next_seven_days);break;
                 case 3 : tabTitle = getResources().getString(R.string.tab_after_next_seven_days);break;
-
+                case 4 : tabTitle= "All";break;
                 // a changer
                 default: tabTitle = "bug";
             }

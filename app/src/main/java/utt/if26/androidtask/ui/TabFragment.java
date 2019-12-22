@@ -79,6 +79,7 @@ public class TabFragment extends Fragment implements RecyclerAdapter.OnReminderC
             case TOMORROW:              reminderEntityList = getReminderForTomorrow(allTimeCategoryReminderList);break;
             case NEXT_SEVEN_DAYS:       reminderEntityList = getReminderForNSDays(allTimeCategoryReminderList);break;
             case AFTER_NEXT_SEVEN_DAYS: reminderEntityList = getReminderForANSDays(allTimeCategoryReminderList);break;
+            case ALL:                   reminderEntityList = allTimeCategoryReminderList;break;
             default: reminderEntityList = allTimeCategoryReminderList;
         }
         return reminderEntityList;

@@ -25,7 +25,8 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
             case 0 : timeCategory = TimeCategory.TODAY;break;
             case 1 : timeCategory = TimeCategory.TOMORROW;break;
             case 2 : timeCategory = TimeCategory.NEXT_SEVEN_DAYS;break;
-            default: timeCategory = TimeCategory.AFTER_NEXT_SEVEN_DAYS;
+            case 3 : timeCategory = TimeCategory.AFTER_NEXT_SEVEN_DAYS;break;
+            default: timeCategory = TimeCategory.ALL;
         }
         return TabFragment.newInstance(typeCategory,timeCategory);
     }

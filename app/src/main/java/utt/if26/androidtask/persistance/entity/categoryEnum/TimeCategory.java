@@ -4,7 +4,8 @@ public enum TimeCategory {
     TODAY(1),
     TOMORROW(2),
     NEXT_SEVEN_DAYS(3),
-    AFTER_NEXT_SEVEN_DAYS(4);
+    AFTER_NEXT_SEVEN_DAYS(4),
+    ALL(5);
 
     private final int value;
 
