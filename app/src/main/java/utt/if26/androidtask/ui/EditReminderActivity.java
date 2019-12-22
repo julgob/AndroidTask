@@ -37,12 +37,13 @@ public class EditReminderActivity extends AppCompatActivity implements AsyncCall
     private TextView reminderTitleTV;
     private String reminderTitle;
     private Switch notifSwitch;
-
+    private TextView commentTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_reminder);
         this.notifSwitch = findViewById(R.id.edit_reminder_notif_switch);
+        this.commentTextView = findViewById(R.id.edit_activity_comment_text);
         this.repository = new Repository(this);
         int reminderId;
 
@@ -81,6 +82,7 @@ public class EditReminderActivity extends AppCompatActivity implements AsyncCall
             if(reminderEntity.isNotificationIsEnabled()){
                 this.notifSwitch.setChecked(true);
             }
+            this.commentTextView.setText(reminderEntity.getComment());
             EditReminderActivity self = this;
             notifSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
