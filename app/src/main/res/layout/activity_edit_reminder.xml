@@ -1,160 +1,181 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_background"
-    android:orientation="vertical"
-    android:weightSum="10">
+    android:fillViewport="true">
 
-    <!--Name of the task-->
-
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        android:background="@drawable/gradient_background"
+        android:orientation="vertical"
+        android:weightSum="3">
 
-        <TextView
-            android:id="@+id/activity_edit_reminder_task_name"
-            android:layout_width="wrap_content"
+        <!--Name of the task-->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:fontFamily="@font/montserrat_bold"
-            android:text="ANDROID TASK"
-            android:textAlignment="center"
-            android:textColor="#FFF"
-            android:textSize="24dp"
-            android:textStyle="bold" />
+            android:layout_weight="1">
 
-    </RelativeLayout>
+            <EditText
+                android:id="@+id/activity_edit_reminder_task_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="ANDROID TASK"
+                android:inputType="textMultiLine"
+                android:maxLines="5"
+                android:textAlignment="center"
+                android:textColor="#FFF"
+                android:textSize="24dp"
+                android:textStyle="bold" />
 
-
-    <!--Button: Delete-->
-
-
-    <GridLayout
-        android:id="@+id/grid_layout"
-        android:layout_width="match_parent"
-        android:layout_height="406dp"
-        android:layout_margin="50dp"
-        android:layout_weight="8"
-        android:columnCount="2">
-
-        <!--LIGN 1-->
-        <!--Rappel - Type-->
+        </RelativeLayout>
 
 
-        <!--LIGN 2-->
-        <!--Rappel - Priority-->
-
-        <!--LIGN 3-->
-        <!--Rappel - Deadline-->
+        <!--Button: Delete-->
 
 
-        <!--LIGN 4-->
-        <!--TV: Notifier ?-->
-        <TextView
-            android:id="@+id/edit_activity_comment_title"
-            android:layout_width="wrap_content"
+        <GridLayout
+            android:id="@+id/grid_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_columnSpan="2"
+            android:layout_margin="50dp"
+            android:layout_weight="1"
+            android:columnCount="2">
+
+            <!--LIGN 1-->
+            <!--Rappel - Type-->
+
+
+            <!--LIGN 2-->
+            <!--Rappel - Priority-->
+
+            <!--LIGN 3-->
+            <!--Rappel - Deadline-->
+
+
+            <!--LIGN 4-->
+            <!--TV: Notifier ?-->
+            <TextView
+                android:id="@+id/edit_activity_comment_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_columnSpan="2"
+                android:layout_gravity="center"
+                android:text="Comment :  "
+                android:textColor="#FFFFFF"
+                android:textColorHint="#FFFFFF"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/edit_activity_comment_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_columnSpan="2"
+                android:layout_gravity="center"
+                android:text="Comment TEXT  "
+                android:inputType="textMultiLine"
+                android:maxLines="5"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#FFFFFF"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/save_modif_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_columnSpan="2"
+                android:text="Save modification"
+                android:onClick="saveReminderModif"/>
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_columnSpan="2"
+                android:layout_gravity="center"
+                android:text="Notification ? "
+                android:textColor="#FFFFFF"
+                android:textColorHint="#FFFFFF"
+                android:textSize="20sp" />
+
+            <!--LIGN 5-->
+            <!--2 buttons: Date + Heure -->
+            <Button
+                android:id="@+id/edit_reminder_notif_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:onClick="onDateClick"
+                android:text="date" />
+
+            <Button
+                android:id="@+id/edit_reminder_notif_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:onClick="onTimeClick"
+                android:text="heure" />
+
+
+            <!--LIGN 6-->
+            <!--Button: Save notif-->
+            -
+
+            <Button
+                android:id="@+id/button10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_columnSpan="2"
+                android:layout_columnWeight="1"
+                android:onClick="onSaveNotifClick"
+                android:text="Save notif" />
+
+
+            <!--LIGN 7-->
+            <!--Comments ?-->
+
+
+        </GridLayout>
+
+        <Switch
+            android:id="@+id/edit_reminder_notif_switch"
+            android:layout_width="264dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Comment :  "
+            android:layout_marginTop="-20dp"
+            android:layout_marginBottom="50dp"
+            android:layout_weight="1"
+            android:backgroundTint="#00B30000"
+            android:backgroundTintMode="multiply"
+            android:showText="false"
+            android:text="Notification active"
             android:textColor="#FFFFFF"
-            android:textColorHint="#FFFFFF"
-            android:textSize="20sp" />
-        <TextView
-            android:id="@+id/edit_activity_comment_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_columnSpan="2"
+            android:textSize="20sp"
+            android:trackTint="#00A81414"
+            android:trackTintMode="add" />
+
+        <Button
+            android:id="@+id/button7"
+            android:layout_width="190dp"
+            android:layout_height="60dp"
             android:layout_gravity="center"
-            android:text="Comment TEXT  "
-            android:textColor="#FFFFFF"
-            android:textColorHint="#FFFFFF"
-            android:textSize="20sp" />
-        <TextView
-            android:id="@+id/tv_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_columnSpan="2"
-            android:layout_gravity="center"
-            android:text="Notification ? "
-            android:textColor="#FFFFFF"
-            android:textColorHint="#FFFFFF"
-            android:textSize="20sp" />
-
-        <!--LIGN 5-->
-        <!--2 buttons: Date + Heure -->
-        <Button
-            android:id="@+id/button9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:onClick="onDateClick"
-            android:text="date" />
-
-        <Button
-            android:id="@+id/button8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:onClick="onTimeClick"
-            android:text="heure" />
+            android:background="@drawable/custom_button"
+            android:fontFamily="@font/montserrat"
+            android:onClick="onDeleteClick"
+            android:text="delete"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-        <!--LIGN 6-->
-        <!--Button: Save notif-->
-        -
-
-        <Button
-            android:id="@+id/button10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_columnSpan="2"
-            android:layout_columnWeight="1"
-            android:onClick="onSaveNotifClick"
-            android:text="Save notif" />
-
-
-        <!--LIGN 7-->
-        <!--Comments ?-->
-
-
-    </GridLayout>
-
-    <Switch
-        android:id="@+id/edit_reminder_notif_switch"
-        android:layout_width="264dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="-20dp"
-        android:layout_marginBottom="50dp"
-        android:layout_weight="1"
-        android:backgroundTint="#00B30000"
-        android:backgroundTintMode="multiply"
-        android:showText="false"
-        android:text="Notification active"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp"
-        android:trackTint="#00A81414"
-        android:trackTintMode="add" />
-
-    <Button
-        android:id="@+id/button7"
-        android:layout_width="190dp"
-        android:layout_height="60dp"
-        android:layout_gravity="center"
-        android:background="@drawable/custom_button"
-        android:fontFamily="@font/montserrat"
-        android:onClick="onDeleteClick"
-        android:text="delete"
-        android:textColor="#000000"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>

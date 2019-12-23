@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -34,6 +35,7 @@ public class EntityActivity extends AppCompatActivity {
     private EditText reminderTitleView;
     private EditText commentView;
 
+    private Button dateButton;
 
 
     @Override
@@ -43,6 +45,7 @@ public class EntityActivity extends AppCompatActivity {
         setContentView(R.layout.activity_entity);
         reminderTitleView = findViewById(R.id.activity_entity_task_name);
         commentView = findViewById(R.id.activity_entity_task_comment);
+        dateButton = findViewById(R.id.task_date);
         //==========
         // SPINNERS
         //==========
@@ -81,8 +84,7 @@ public class EntityActivity extends AppCompatActivity {
                 deadlineDay = dayOfMonth;
                 deadlineMonth = month +1; // offset goes from 1 to 12, picker from 0 to 11
                 deadlineYear = year;
-
-                Toast.makeText(getApplicationContext(),deadlineDay + " / " + deadlineMonth + " / " + deadlineYear,Toast.LENGTH_LONG).show();
+                dateButton.setText(deadlineDay + " / " + deadlineMonth + " / " + deadlineYear);
             }
         },offsetDateTime.getYear(),offsetDateTime.getMonthValue() - 1/*offset goes from 1 to 12, picker from 0 to 11*/,offsetDateTime.getDayOfMonth());
         datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);

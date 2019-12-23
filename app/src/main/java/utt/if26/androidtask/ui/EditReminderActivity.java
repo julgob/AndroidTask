@@ -7,8 +7,10 @@ import android.app.TimePickerDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -37,13 +39,22 @@ public class EditReminderActivity extends AppCompatActivity implements AsyncCall
     private TextView reminderTitleTV;
     private String reminderTitle;
     private Switch notifSwitch;
-    private TextView commentTextView;
+    private EditText commentEditText;
+    private EditText titleEditText;
+
+    private Button notfiDateButton;
+    private Button notifTimeButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_reminder);
         this.notifSwitch = findViewById(R.id.edit_reminder_notif_switch);
-        this.commentTextView = findViewById(R.id.edit_activity_comment_text);
+        this.commentEditText = findViewById(R.id.edit_activity_comment_text);
+        this.titleEditText = findViewById(R.id.activity_edit_reminder_task_name);
+        this.notfiDateButton = findViewById(R.id.edit_reminder_notif_date);
+        this.notifTimeButton = findViewById(R.id.edit_reminder_notif_time);
+
         this.repository = new Repository(this);
         int reminderId;
 
@@ -82,7 +93,7 @@ public class EditReminderActivity extends AppCompatActivity implements AsyncCall
             if(reminderEntity.isNotificationIsEnabled()){
                 this.notifSwitch.setChecked(true);
             }
-            this.commentTextView.setText(reminderEntity.getComment());
+            this.commentEditText.setText(reminderEntity.getComment());
             EditReminderActivity self = this;
             notifSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
@@ -90,6 +101,25 @@ public class EditReminderActivity extends AppCompatActivity implements AsyncCall
                     self.activateNotif(isChecked);
                 }
             });
+            if(reminderEntity.getTriggerDateTime()!=null){
+                OffsetDateTime dateTime = reminderEntity.getTriggerDateTime();
+                this.notifYear = dateTime.getYear();
+                this.notifMonth= dateTime.getMonthValue();
+                this.notifDay = dateTime.getDayOfMonth();
+                this.notifHour= dateTime.getHour();
+                this.notifMinute= dateTime.getMinute();
+
+                String notifMinuteString = String.valueOf(notifMinute);
+                String notifHourString = String.valueOf(notifHour);
+                if(notifHour<10){
+                    notifHourString = "0"+notifHour;
+                }
+                if(notifMinute< 10){
+                    notifMinuteString = "0"+notifMinute;
+                }
+                notifTimeButton.setText(notifHourString + ":" + notifMinuteString);
+                notfiDateButton.setText(notifDay + " / " + notifMonth + " / " + notifYear);
+            }
         }
         //aficher sur lecran toute les bonnes valeur
     }
@@ -133,8 +163,16 @@ public class EditReminderActivity extends AppCompatActivity implements AsyncCall
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 notifHour    = hourOfDay;
                 notifMinute  = minute;
-
-                Toast.makeText(getApplicationContext(),notifHour + " h " + notifMinute,Toast.LENGTH_LONG).show();
+                String notifMinuteString = String.valueOf(notifMinute);
+                String notifHourString = String.valueOf(notifHour);
+                if(notifHour<10){
+                    notifHourString = "0"+notifHour;
+                }
+                if(notifMinute< 10){
+                    notifMinuteString = "0"+notifMinute;
+                }
+                notifTimeButton.setText(notifHourString + ":" + notifMinuteString);
+                //Toast.makeText(getApplicationContext(),notifHour + " h " + notifMinute,Toast.LENGTH_LONG).show();
             }
         },offsetDateTime.getHour(),offsetDateTime.getMinute(),true);
         picker.show();
@@ -148,8 +186,8 @@ public class EditReminderActivity extends AppCompatActivity implements AsyncCall
                 notifYear   = year;
                 notifMonth  = month+1;
                 notifDay    = dayOfMonth;
-                Toast.makeText(getApplicationContext(),notifDay + " / " + notifMonth + " / " + notifYear,Toast.LENGTH_LONG).show();
-
+                notfiDateButton.setText(notifDay + " / " + notifMonth + " / " + notifYear);
+                //Toast.makeText(getApplicationContext(),notifDay + " / " + notifMonth + " / " + notifYear,Toast.LENGTH_LONG).show();
             }
         },offsetDateTime.getYear(),offsetDateTime.getMonthValue()-1,offsetDateTime.getDayOfMonth());
         picker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
@@ -192,14 +230,10 @@ public class EditReminderActivity extends AppCompatActivity implements AsyncCall
         }
     }
 
-    //a appeler depuis le layout dans le onclick du bonton pour sauvegarder les changements
-    public void onUpdateReminderClick(View v){
-        this.updateLocalReminder();
-        this.repository.updateReminder(this.reminderEntity);
-    }
 
-    //met a jour le reminder de la classe avec les donnes des champs se lactivité
-    private void updateLocalReminder(){
-        // TO DO : mettre a jourle reminder
+    public void saveReminderModif(View v){
+        this.reminderEntity.setComment(this.commentEditText.getText().toString());
+        this.reminderEntity.setTitre(this.titleEditText.getText().toString());
+        this.repository.updateReminder(reminderEntity);
     }
 }
