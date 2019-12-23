@@ -7,10 +7,12 @@ import android.app.TimePickerDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -26,6 +28,7 @@ import utt.if26.androidtask.AsyncCallback;
 import utt.if26.androidtask.R;
 import utt.if26.androidtask.persistance.Repository;
 import utt.if26.androidtask.persistance.entity.ReminderEntity;
+import utt.if26.androidtask.persistance.entity.categoryEnum.TypeCategory;
 
 public class EditReminderActivity extends AppCompatActivity implements AsyncCallback {
     Repository repository;
@@ -34,7 +37,11 @@ public class EditReminderActivity extends AppCompatActivity implements AsyncCall
     private int notifMinute;
     private int notifMonth;
     private int notifDay;
+    private ArrayAdapter<TypeCategory> arrayType;
     private int notifYear;
+    private int deadlineyear;
+    private int deadlineMonth;
+    private int deadlineDay;
 
     private TextView reminderTitleTV;
     private String reminderTitle;
@@ -42,9 +49,11 @@ public class EditReminderActivity extends AppCompatActivity implements AsyncCall
     private EditText commentEditText;
     private EditText titleEditText;
 
+    private Button deadlineButton;
     private Button notfiDateButton;
     private Button notifTimeButton;
 
+    private Spinner typeSpinner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +63,17 @@ public class EditReminderActivity extends AppCompatActivity implements AsyncCall
         this.titleEditText = findViewById(R.id.activity_edit_reminder_task_name);
         this.notfiDateButton = findViewById(R.id.edit_reminder_notif_date);
         this.notifTimeButton = findViewById(R.id.edit_reminder_notif_time);
+        this.typeSpinner = findViewById(R.id._edit_reminder_type_spinner);
+        this.deadlineButton= findViewById(R.id.edit_reminder_deadline_button);
+
+        arrayType =  new ArrayAdapter<TypeCategory>( // create for the color of the text spinner
+                this,
+                R.layout.spinner_color_layout,
+                TypeCategory.values()
+        );
+
+        arrayType.setDropDownViewResource(R.layout.spinner_dropdwon_layout);
+        typeSpinner.setAdapter(arrayType);
 
         this.repository = new Repository(this);
         int reminderId;
@@ -120,8 +140,30 @@ public class EditReminderActivity extends AppCompatActivity implements AsyncCall
                 notifTimeButton.setText(notifHourString + ":" + notifMinuteString);
                 notfiDateButton.setText(notifDay + " / " + notifMonth + " / " + notifYear);
             }
+
+            this.typeSpinner.setSelection(this.arrayType.getPosition(reminderEntity.getTypeCategory()));
+
+            OffsetDateTime deadline = reminderEntity.getDeadline();
+            deadlineyear = deadline.getYear();
+            deadlineMonth = deadline.getMonthValue();
+            deadlineDay = deadline.getDayOfMonth();
+            this.deadlineButton.setText(deadlineDay+"/"+deadlineMonth+"/"+deadlineyear);
         }
-        //aficher sur lecran toute les bonnes valeur
+    }
+    public void deadlineClick(View v){
+        OffsetDateTime offsetDateTime = OffsetDateTime.now();
+        DatePickerDialog picker = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                deadlineyear   = year;
+                deadlineMonth  = month+1;
+                deadlineDay    = dayOfMonth;
+                deadlineButton.setText(deadlineDay + " / " + deadlineMonth + " / " + deadlineyear);
+                //Toast.makeText(getApplicationContext(),notifDay + " / " + notifMonth + " / " + notifYear,Toast.LENGTH_LONG).show();
+            }
+        },deadlineyear,deadlineMonth-1,deadlineDay);
+        picker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+        picker.show();
     }
 
     public void activateNotif(boolean isActivate){
@@ -132,9 +174,6 @@ public class EditReminderActivity extends AppCompatActivity implements AsyncCall
             this.repository.setNotificationDisabled(reminderEntity.getReminderId(),this::callback);
         }
     }
-
-    //faudra une fonction qui update le reminder quand on clique save
-    //utiliser la methode updatereminder du repo, on a qua passer lobjet reminder entity modifié (faut que lid soit le meme evidemment
 
     public void onDeleteClick(View v){
      if(this.reminderEntity != null){
@@ -234,6 +273,9 @@ public class EditReminderActivity extends AppCompatActivity implements AsyncCall
     public void saveReminderModif(View v){
         this.reminderEntity.setComment(this.commentEditText.getText().toString());
         this.reminderEntity.setTitre(this.titleEditText.getText().toString());
+        this.reminderEntity.setTypeCategory((TypeCategory) this.typeSpinner.getSelectedItem());
+        OffsetDateTime deadline = OffsetDateTime.of(this.deadlineyear,this.deadlineMonth,this.deadlineDay,0,0,0,0,OffsetDateTime.now().getOffset());
+        reminderEntity.setDeadline(deadline);
         this.repository.updateReminder(reminderEntity);
     }
 }
