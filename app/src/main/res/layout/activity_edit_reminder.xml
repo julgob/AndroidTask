@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:background="@drawable/gradient_background"
         android:orientation="vertical"
-        android:weightSum="3">
+        android:weightSum="4">
 
         <!--Name of the task-->
 
@@ -43,9 +43,9 @@
         <GridLayout
             android:id="@+id/grid_layout"
             android:layout_width="325dp"
-            android:layout_height="330dp"
+            android:layout_height="wrap_content"
             android:layout_margin="50dp"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:columnCount="2">
 
             <!--LIGN 1-->
@@ -111,9 +111,9 @@
 
             <Button
                 android:id="@+id/edit_reminder_deadline_button"
-                android:onClick="deadlineClick"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="deadlineClick"
                 android:text="Button" />
 
             <Button
@@ -166,8 +166,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_columnSpan="2"
-                android:layout_columnWeight="1"
                 android:onClick="onSaveNotifClick"
+                android:layout_columnWeight="1"
                 android:text="Save notif" />
 
 
