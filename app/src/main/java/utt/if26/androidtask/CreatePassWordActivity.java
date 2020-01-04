@@ -45,11 +45,14 @@ public class CreatePassWordActivity extends AppCompatActivity {
             edit.commit();
             MessageDigest messdi;
             try{
-               messdi = MessageDigest.getInstance("PBKDF2WithHmacSHA1");
+               messdi = MessageDigest.getInstance("SHA-256");
                 SecureRandom secureRandom =new SecureRandom();
                 byte saltBytes[] = new byte[20];
                 secureRandom.nextBytes(saltBytes);
-                byte[] passwordByte = Base64.decode(field1.getText().toString(),Base64.NO_WRAP);
+
+                byte[] tme = Base64.encode(field1.getText().toString().getBytes(),Base64.NO_WRAP);
+                String tempS = new String(tme);
+                byte[] passwordByte = Base64.decode(tempS,Base64.NO_WRAP);
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream( );
                 outputStream.write( passwordByte);
                 outputStream.write( saltBytes);

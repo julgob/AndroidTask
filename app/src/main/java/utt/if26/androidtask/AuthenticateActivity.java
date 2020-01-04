@@ -40,11 +40,13 @@ public class AuthenticateActivity extends AppCompatActivity {
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream( );
         try{
-            byte[] passwordByte = Base64.decode(passwordField.getText().toString(),Base64.NO_WRAP);
+            byte[] tme = Base64.encode(passwordField.getText().toString().getBytes(),Base64.NO_WRAP);
+            String tempS = new String(tme);
+            byte[] passwordByte = Base64.decode(tempS,Base64.NO_WRAP);
             outputStream.write( passwordByte);
             outputStream.write( saltBytes);
             byte concatBytes[] = outputStream.toByteArray( );
-            MessageDigest messdi = MessageDigest.getInstance("PBKDF2WithHmacSHA1");
+            MessageDigest messdi = MessageDigest.getInstance("SHA-256");
             byte[] hashedPassword = messdi.digest(concatBytes);
 
             String finalString = Base64.encodeToString(hashedPassword,Base64.NO_WRAP);
