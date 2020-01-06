@@ -1,11 +1,11 @@
 package utt.if26.androidtask.ui;
 
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.graphics.Paint;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -63,7 +63,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
         public void setReminderEntity(ReminderEntity reminderEntity){
             this.reminderEntity = reminderEntity;
-            textView.setText(reminderEntity.getTitre());
+            String emoji = new String(Character.toChars(0x1F51D));
+            switch (reminderEntity.getRating()){
+                case HIGH : emoji = new String(Character.toChars(0x2197));break;
+                case NORMAL: emoji = "";//new String(Character.toChars(0x2198));break;
+                default: emoji = new String(Character.toChars(0x2198));
+            }
+
+            textView.setText(reminderEntity.getTitre()+" "+ emoji);
             if(reminderEntity.getCompleted()) {
                 textView.setPaintFlags(textView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                 checkBox.setChecked(true);
